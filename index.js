@@ -10,6 +10,7 @@ var wrap = require('wordwrap'),
 
 function UI (opts) {
   this.width = opts.width
+  this.wrap = opts.wrap
   this.rows = []
 }
 
@@ -57,8 +58,12 @@ UI.prototype.rowToString = function (row) {
       width = row[c].width // the width with padding.
       wrapWidth = _this._negatePadding(row[c]) // the width without padding.
 
-      for (var i = 0; i < wrapWidth; i++) {
-        ts += col.charAt(i) || ' '
+      if (_this.wrap) {
+        for (var i = 0; i < wrapWidth; i++) {
+          ts += col.charAt(i) || ' '
+        }
+      } else {
+        ts += col
       }
 
       // align the string within its column.
@@ -91,10 +96,11 @@ UI.prototype._rasterize = function (row) {
   row.forEach(function (col, c) {
     // leave room for left and right padding.
     col.width = widths[c]
-    wrapped = wrap.hard(_this._negatePadding(col))(col.text).split('\n')
+    if (_this.wrap) wrapped = wrap.hard(_this._negatePadding(col))(col.text).split('\n')
+    else wrapped = col.text.split('\n')
 
     // add top and bottom padding.
-    if (col.padding) {
+    if (col.padding && _this.wrap) {
       for (i = 0; i < (col.padding[top] || 0); i++) wrapped.unshift('')
       for (i = 0; i < (col.padding[bottom] || 0); i++) wrapped.push('')
     }
@@ -154,6 +160,7 @@ function _minWidth (col) {
 
 module.exports = function (opts) {
   return new UI({
-    width: (opts || {}).width || 80
+    width: (opts || {}).width || 80,
+    wrap: typeof opts.wrap === 'boolean' ? opts.wrap : true
   })
 }

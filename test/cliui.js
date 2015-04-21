@@ -197,4 +197,20 @@ describe('cliui', function () {
       ui.toString().split('\n').should.eql(expected)
     })
   })
+
+  describe('wrap', function () {
+    it('allows wordwrap to be disabled', function () {
+      var ui = cliui({
+        wrap: false
+      })
+
+      ui.row(
+        'i am a string',
+        {text: 'i am a second string', padding: [0, 2, 0, 0]},
+        {text: 'i am a third string that should not be wrapped', padding: [0, 0, 0, 2]}
+      )
+
+      ui.toString().should.equal('i am a stringi am a second string    i am a third string that should not be wrapped')
+    })
+  })
 })
