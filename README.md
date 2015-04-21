@@ -1,6 +1,12 @@
 # cliui
 
+[![Build Status](https://travis-ci.org/bcoe/cliui.png)](https://travis-ci.org/bcoe/cliui)
+[![Coverage Status](https://coveralls.io/repos/bcoe/cliui/badge.svg?branch=)](https://coveralls.io/r/bcoe/cliui?branch=)
+[![NPM version](https://img.shields.io/npm/v/cliui.svg)](https://www.npmjs.com/package/cliui)
+
 easily create complex multi-column command-line-interfaces.
+
+## Example
 
 ```js
 var ui = require('cliui')({
@@ -32,3 +38,27 @@ ui.row(
 
 console.log(ui.toString())
 ```
+
+## Methods
+
+```js
+cliui = require('cliui')
+```
+
+### cliui({width: integer})
+
+Specify the maximum width of the UI being generated.
+
+### cliui({wrap: boolean})
+
+Enable or disable the wrapping of text in a column.
+
+### cliui.row(column, column, column)
+
+Create a row with any number of columns, a column
+can either be a string, or an object with the following
+options:
+
+* **width:** the width of a column.
+* **align:** alignment, `right` or `center`.
+* **padding:** `[top, right, bottom, left]`.

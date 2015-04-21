@@ -38,10 +38,10 @@ describe('cliui', function () {
       // it should wrap each column appropriately.
       var expected = [
        'i am a string  i am a      i am a third',
-       'that should be second      string that ',
-       'wrapped        string that should be   ',
-       '               should be   wrapped     ',
-       '               wrapped     '
+       'that should be second      string that',
+       'wrapped        string that should be',
+       '               should be   wrapped',
+       '               wrapped'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -119,10 +119,10 @@ describe('cliui', function () {
 
       // it should right-align the second column.
       var expected = [
-       'i am a stringi am a secondi am a third ',
-       '                    stringstring that  ',
-       '                          should be    ',
-       '                          wrapped      '
+       'i am a stringi am a secondi am a third',
+       '                    stringstring that',
+       '                          should be',
+       '                          wrapped'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -141,9 +141,9 @@ describe('cliui', function () {
 
       // it should right-align the second column.
       var expected = [
-       'i am a string          i am a second       i am a third string ',
-       '                           string          that should be      ',
-       '                                           wrapped             '
+       'i am a string          i am a second       i am a third string',
+       '                           string          that should be',
+       '                                           wrapped'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -164,10 +164,10 @@ describe('cliui', function () {
 
       // it should add left/right padding to columns.
       var expected = [
-       '    i have     i have      i have no    ',
-       '    padding  padding on    padding      ',
-       '    on my     my right     ',
-       '    left     '
+       '    i have     i have      i have no',
+       '    padding  padding on    padding',
+       '    on my     my right',
+       '    left'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -187,11 +187,11 @@ describe('cliui', function () {
       // it should add top/bottom padding to second
       // and third columns.
       var expected = [
-       'i am a string             i am a third ',
-       '                          string that  ',
-       '             i am a secondshould be    ',
-       '             string       wrapped      ',
-       '                                       '
+       'i am a string             i am a third',
+       '                          string that',
+       '             i am a secondshould be',
+       '             string       wrapped',
+       ''
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -205,12 +205,12 @@ describe('cliui', function () {
       })
 
       ui.row(
-        'i am a string',
+        {text: 'i am a string', padding: [0, 1, 0, 0]},
         {text: 'i am a second string', padding: [0, 2, 0, 0]},
         {text: 'i am a third string that should not be wrapped', padding: [0, 0, 0, 2]}
       )
 
-      ui.toString().should.equal('i am a stringi am a second string    i am a third string that should not be wrapped')
+      ui.toString().should.equal('i am a string i am a second string    i am a third string that should not be wrapped')
     })
   })
 })
