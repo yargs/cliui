@@ -34,7 +34,10 @@
     "cli",
     "command-line",
     "layout",
-    "design"
+    "design",
+    "console",
+    "wrap",
+    "table"
   ],
   "author": "Ben Coe <ben@npmjs.com>",
   "license": "ISC",
