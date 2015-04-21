@@ -6,6 +6,10 @@
   "scripts": {
     "test": "standard && mocha --check-leaks --ui exports --require patched-blanket -R mocoverage"
   },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/bcoe/cliui.git"
+  },
   "config": {
     "blanket": {
       "pattern": [
