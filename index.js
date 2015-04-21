@@ -58,16 +58,12 @@ UI.prototype.rowToString = function (row) {
       width = row[c].width // the width with padding.
       wrapWidth = _this._negatePadding(row[c]) // the width without padding.
 
-      if (_this.wrap) {
-        for (var i = 0; i < wrapWidth; i++) {
-          ts += col.charAt(i) || ' '
-        }
-      } else {
-        ts += col
+      for (var i = 0; i < Math.max(wrapWidth, col.length); i++) {
+        ts += col.charAt(i) || ' '
       }
 
       // align the string within its column.
-      if (row[c].align && row[c].align !== 'left') {
+      if (row[c].align && row[c].align !== 'left' && _this.wrap) {
         ts = align[row[c].align](ts.trim() + '\n' + new Array(wrapWidth + 1).join(' '))
           .split('\n')[0]
         if (ts.length < wrapWidth) ts += new Array(width - ts.length).join(' ')
@@ -78,6 +74,9 @@ UI.prototype.rowToString = function (row) {
       str += ts
       if (row[c].padding && row[c].padding[right]) str += new Array(row[c].padding[right] + 1).join(' ')
     })
+
+    // remove trailing whitespace.
+    str = str.replace(/ +$/, '')
   })
 
   return str
@@ -100,7 +99,7 @@ UI.prototype._rasterize = function (row) {
     else wrapped = col.text.split('\n')
 
     // add top and bottom padding.
-    if (col.padding && _this.wrap) {
+    if (col.padding) {
       for (i = 0; i < (col.padding[top] || 0); i++) wrapped.unshift('')
       for (i = 0; i < (col.padding[bottom] || 0); i++) wrapped.push('')
     }
@@ -125,7 +124,8 @@ UI.prototype._negatePadding = function (col) {
 }
 
 UI.prototype._columnWidths = function (row) {
-  var widths = [],
+  var _this = this,
+    widths = [],
     unset = row.length,
     unsetWidth,
     remainingWidth = this.width
@@ -144,7 +144,8 @@ UI.prototype._columnWidths = function (row) {
   // any unset widths should be calculated.
   if (unset) unsetWidth = Math.floor(remainingWidth / unset)
   widths.forEach(function (w, i) {
-    if (w === undefined) widths[i] = Math.max(unsetWidth, _minWidth(row[i]))
+    if (!_this.wrap) widths[i] = row[i].width || row[i].text.length
+    else if (w === undefined) widths[i] = Math.max(unsetWidth, _minWidth(row[i]))
   })
 
   return widths

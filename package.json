@@ -47,6 +47,7 @@
     "blanket": "^1.1.6",
     "chai": "^2.2.0",
     "mocha": "^2.2.4",
+    "mocha-lcov-reporter": "0.0.2",
     "mocoverage": "^1.0.0",
     "patched-blanket": "^1.0.1",
     "standard": "^3.6.1"
