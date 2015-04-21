@@ -5,7 +5,7 @@ easily create complex multi-column command-line-interfaces.
 ```js
 var ui = require('cliui')({
   width: 80
-});
+})
 
 ui.row('Usage: $0 [command] [options]')
 
@@ -30,5 +30,5 @@ ui.row(
   }
 )
 
-console.log(ui.toString());
+console.log(ui.toString())
 ```

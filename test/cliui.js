@@ -18,7 +18,7 @@ describe('cliui', function () {
       })
     })
 
-    it('evenly divides text across columns if multiple tds are given', function () {
+    it('evenly divides text across columns if multiple columns are given', function () {
       var ui = cliui({
         width: 40
       })
@@ -60,7 +60,7 @@ describe('cliui', function () {
       widths[2].should.equal(13)
     })
 
-    it('divides width over remaining columns if first width specified', function () {
+    it('divides width over remaining columns if first column has width specified', function () {
       var ui = cliui({
           width: 40
         }),
@@ -71,7 +71,7 @@ describe('cliui', function () {
       widths[2].should.equal(10)
     })
 
-    it('divides width over remaining columns if middle width specified', function () {
+    it('divides width over remaining columns if middle column has width specified', function () {
       var ui = cliui({
           width: 40
         }),
@@ -82,7 +82,7 @@ describe('cliui', function () {
       widths[2].should.equal(15)
     })
 
-    it('assigns remaining width if multiple widths specified', function () {
+    it('keeps track of remaining width if multiple columns have width specified', function () {
       var ui = cliui({
           width: 40
         }),
@@ -106,7 +106,7 @@ describe('cliui', function () {
   })
 
   describe('alignment', function () {
-    it('allows a column to be right-aligned', function () {
+    it('allows a column to be right aligned', function () {
       var ui = cliui({
         width: 40
       })
@@ -117,7 +117,7 @@ describe('cliui', function () {
         'i am a third string that should be wrapped'
       )
 
-      // it should wrap each column appropriately.
+      // it should right-align the second column.
       var expected = [
        'i am a stringi am a secondi am a third ',
        '                    stringstring that  ',
@@ -127,23 +127,74 @@ describe('cliui', function () {
 
       ui.toString().split('\n').should.eql(expected)
     })
+
+    it('allows a column to be center aligned', function () {
+      var ui = cliui({
+        width: 60
+      })
+
+      ui.row(
+        'i am a string',
+        {text: 'i am a second string', align: 'center', padding: [0, 2, 0, 2]},
+        'i am a third string that should be wrapped'
+      )
+
+      // it should right-align the second column.
+      var expected = [
+       'i am a string          i am a second       i am a third string ',
+       '                           string          that should be      ',
+       '                                           wrapped             '
+      ]
+
+      ui.toString().split('\n').should.eql(expected)
+    })
   })
 
   describe('padding', function () {
-    it('allows for top/bottom padding', function () {
+    it('handles left/right padding', function () {
       var ui = cliui({
-        width: 80
+        width: 40
+      })
+
+      ui.row(
+        {text: 'i have padding on my left', padding: [0, 0, 0, 4]},
+        {text: 'i have padding on my right', padding: [0, 2, 0, 0], align: 'center'},
+        {text: 'i have no padding', padding: [0, 0, 0, 0]}
+      )
+
+      // it should add left/right padding to columns.
+      var expected = [
+       '    i have     i have      i have no    ',
+       '    padding  padding on    padding      ',
+       '    on my     my right     ',
+       '    left     '
+      ]
+
+      ui.toString().split('\n').should.eql(expected)
+    })
+
+    it('handles top/bottom padding', function () {
+      var ui = cliui({
+        width: 40
       })
 
       ui.row(
         'i am a string',
         {text: 'i am a second string', padding: [2, 0, 0, 0]},
-        {text: 'i am a third string that should be wrapped', padding: [0, 0, 0, 2]}
+        {text: 'i am a third string that should be wrapped', padding: [0, 0, 1, 0]}
       )
 
-      console.log(ui.toString())
+      // it should add top/bottom padding to second
+      // and third columns.
+      var expected = [
+       'i am a string             i am a third ',
+       '                          string that  ',
+       '             i am a secondshould be    ',
+       '             string       wrapped      ',
+       '                                       '
+      ]
 
-      // ui.toString().split('\n').should.eql(expected)
+      ui.toString().split('\n').should.eql(expected)
     })
   })
 })

@@ -3,9 +3,9 @@ var wrap = require('wordwrap'),
     right: require('right-align'),
     center: require('center-align')
   },
-  // top = 0,
+  top = 0,
   right = 1,
-  // bottom = 2,
+  bottom = 2,
   left = 3
 
 function UI (opts) {
@@ -43,41 +43,63 @@ UI.prototype.toString = function () {
 }
 
 UI.prototype.rowToString = function (row) {
-  var widths = this._columnWidths(row),
-    rrows = this._rasterize(row, widths),
+  var _this = this,
+    rrows = this._rasterize(row),
     str = '',
-    ts
+    ts,
+    width,
+    wrapWidth
 
   rrows.forEach(function (rrow, r) {
     if (r) str += '\n'
     rrow.forEach(function (col, c) {
-      ts = ''
-      for (var i = 0; i < widths[c]; i++) {
+      ts = '' // temporary string used during alignment/padding.
+      width = row[c].width // the width with padding.
+      wrapWidth = _this._negatePadding(row[c]) // the width without padding.
+
+      for (var i = 0; i < wrapWidth; i++) {
         ts += col.charAt(i) || ' '
       }
 
       // align the string within its column.
       if (row[c].align && row[c].align !== 'left') {
-        ts = align[row[c].align](ts.trim() + '\n' + new Array(widths[c] + 1).join(' '))
+        ts = align[row[c].align](ts.trim() + '\n' + new Array(wrapWidth + 1).join(' '))
           .split('\n')[0]
-        if (ts.length < widths[c]) ts += new Array(widths[c] - ts.length).join(' ')
+        if (ts.length < wrapWidth) ts += new Array(width - ts.length).join(' ')
       }
 
+      // add left/right padding and print string.
+      if (row[c].padding && row[c].padding[left]) str += new Array(row[c].padding[left] + 1).join(' ')
       str += ts
+      if (row[c].padding && row[c].padding[right]) str += new Array(row[c].padding[right] + 1).join(' ')
     })
   })
 
   return str
 }
 
-UI.prototype._rasterize = function (row, widths) {
-  var rrow,
-    rrows = []
+UI.prototype._rasterize = function (row) {
+  var _this = this,
+    i,
+    rrow,
+    rrows = [],
+    widths = this._columnWidths(row),
+    wrapped
 
   // word wrap all columns, and create
   // a data-structure that is easy to rasterize.
   row.forEach(function (col, c) {
-    wrap.hard(widths[c])(col.text).split('\n').forEach(function (str, r) {
+    // leave room for left and right padding.
+    col.width = widths[c]
+    wrapped = wrap.hard(_this._negatePadding(col))(col.text).split('\n')
+
+    // add top and bottom padding.
+    if (col.padding) {
+      for (i = 0; i < (col.padding[top] || 0); i++) wrapped.unshift('')
+      for (i = 0; i < (col.padding[bottom] || 0); i++) wrapped.push('')
+    }
+
+    wrapped.forEach(function (str, r) {
       if (!rrows[r]) rrows.push([])
       rrow = rrows[r]
       for (var i = 0; i < c; i++) {
@@ -88,6 +110,12 @@ UI.prototype._rasterize = function (row, widths) {
   })
 
   return rrows
+}
+
+UI.prototype._negatePadding = function (col) {
+  var wrapWidth = col.width
+  if (col.padding) wrapWidth -= (col.padding[left] || 0) + (col.padding[right] || 0)
+  return wrapWidth
 }
 
 UI.prototype._columnWidths = function (row) {
