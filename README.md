@@ -13,14 +13,14 @@ var ui = require('cliui')({
   width: 80
 })
 
-ui.row('Usage: $0 [command] [options]')
+ui.div('Usage: $0 [command] [options]')
 
-ui.row({
+ui.div({
   text: 'Options:',
   padding: [2, 0, 2, 0]
 })
 
-ui.row(
+ui.div(
   {
     text: "-f, --file",
     width: 40,
@@ -53,7 +53,7 @@ Specify the maximum width of the UI being generated.
 
 Enable or disable the wrapping of text in a column.
 
-### cliui.row(column, column, column)
+### cliui.div(column, column, column)
 
 Create a row with any number of columns, a column
 can either be a string, or an object with the following
@@ -62,3 +62,8 @@ options:
 * **width:** the width of a column.
 * **align:** alignment, `right` or `center`.
 * **padding:** `[top, right, bottom, left]`.
+
+### cliui.span(column, column, column)
+
+Similar to `div`, except the next row will be appended without
+a new line being created.

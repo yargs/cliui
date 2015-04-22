@@ -14,7 +14,14 @@ function UI (opts) {
   this.rows = []
 }
 
-UI.prototype.row = function () {
+UI.prototype.span = function () {
+  var cols = this.div.apply(this, arguments)
+  cols.span = true
+}
+
+UI.prototype.div = function () {
+  if (arguments.length === 0) this.div('')
+
   var cols = []
 
   for (var i = 0, arg; (arg = arguments[i]) !== undefined; i++) {
@@ -23,6 +30,7 @@ UI.prototype.row = function () {
   }
 
   this.rows.push(cols)
+  return cols
 }
 
 UI.prototype._colFromString = function (str) {
@@ -33,18 +41,26 @@ UI.prototype._colFromString = function (str) {
 
 UI.prototype.toString = function () {
   var _this = this,
-    str = ''
+    lines = []
 
   _this.rows.forEach(function (row, i) {
-    if (i) str += '\n'
-    str += _this.rowToString(row)
+    _this.rowToString(row, lines)
   })
 
-  return str
+  // don't display any lines with the
+  // hidden flag set.
+  lines = lines.filter(function (line) {
+    return !line.hidden
+  })
+
+  return lines.map(function (line) {
+    return line.text
+  }).join('\n')
 }
 
-UI.prototype.rowToString = function (row) {
+UI.prototype.rowToString = function (row, lines) {
   var _this = this,
+    paddingLeft,
     rrows = this._rasterize(row),
     str = '',
     ts,
@@ -52,7 +68,7 @@ UI.prototype.rowToString = function (row) {
     wrapWidth
 
   rrows.forEach(function (rrow, r) {
-    if (r) str += '\n'
+    str = ''
     rrow.forEach(function (col, c) {
       ts = '' // temporary string used during alignment/padding.
       width = row[c].width // the width with padding.
@@ -70,14 +86,56 @@ UI.prototype.rowToString = function (row) {
       }
 
       // add left/right padding and print string.
-      if (row[c].padding && row[c].padding[left]) str += new Array(row[c].padding[left] + 1).join(' ')
+      paddingLeft = (row[c].padding || [0, 0, 0, 0])[left]
+      if (paddingLeft) str += new Array(row[c].padding[left] + 1).join(' ')
       str += ts
       if (row[c].padding && row[c].padding[right]) str += new Array(row[c].padding[right] + 1).join(' ')
+
+      // if prior row is span, try to render the
+      // current row on the prior line.
+      if (r === 0 && lines.length > 0) {
+        str = _this._renderInline(str, lines[lines.length - 1], paddingLeft)
+      }
     })
 
     // remove trailing whitespace.
-    str = str.replace(/ +$/, '')
+    lines.push({
+      text: str.replace(/ +$/, ''),
+      span: row.span
+    })
   })
+
+  return lines
+}
+
+// if the full 'source' can render in
+// the target line, do so.
+UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
+  var target = previousLine.text,
+    str = ''
+
+  if (!previousLine.span) return source
+
+  // if we're not applying wrapping logic,
+  // just always append to the span.
+  if (!this.wrap) {
+    previousLine.hidden = true
+    return target + source
+  }
+
+  for (var i = 0, tc, sc; i < Math.max(source.length, target.length); i++) {
+    tc = target.charAt(i) || ' '
+    sc = source.charAt(i) || ' '
+    // we tried to overwrite a character in the other string.
+    if (tc !== ' ' && sc !== ' ') return source
+    // there is not enough whitespace to maintain padding.
+    if (sc !== ' ' && i < paddingLeft + target.length) return source
+    // :thumbsup:
+    if (tc === ' ') str += sc
+    else str += tc
+  }
+
+  previousLine.hidden = true
 
   return str
 }
@@ -106,7 +164,9 @@ UI.prototype._rasterize = function (row) {
 
     wrapped.forEach(function (str, r) {
       if (!rrows[r]) rrows.push([])
+
       rrow = rrows[r]
+
       for (var i = 0; i < c; i++) {
         if (rrow[i] === undefined) rrow.push('')
       }
@@ -160,6 +220,8 @@ function _minWidth (col) {
 }
 
 module.exports = function (opts) {
+  opts = opts || {}
+
   return new UI({
     width: (opts || {}).width || 80,
     wrap: typeof opts.wrap === 'boolean' ? opts.wrap : true
