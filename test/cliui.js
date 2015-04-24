@@ -295,4 +295,55 @@ describe('cliui', function () {
       ui.toString().split('\n').should.eql(expected)
     })
   })
+
+  describe('layoutDSL', function () {
+    it('turns tab into multiple columns', function () {
+      var ui = cliui({
+        width: 60
+      })
+
+      ui.div(
+        '  <regex>  \tmy awesome regex\n  <my second thing>  \tanother row\t  a third column'
+      )
+
+      var expected = [
+       '  <regex>            my awesome regex',
+       '  <my second thing>  another row          a third column'
+      ]
+
+      ui.toString().split('\n').should.eql(expected)
+    })
+
+    it('turns newline into multiple rows', function () {
+      var ui = cliui({
+        width: 40
+      })
+
+      ui.div(
+        'Usage: $0\n  <regex>\t  my awesome regex\n  <glob>\t  my awesome glob\t  [required]'
+      )
+      var expected = [
+       'Usage: $0',
+       '  <regex>  my awesome regex',
+       '  <glob>   my awesome     [required]',
+       '           glob'
+      ]
+
+      ui.toString().split('\n').should.eql(expected)
+    })
+
+    it('does not apply DSL if wrap is false', function () {
+      var ui = cliui({
+        width: 40,
+        wrap: false
+      })
+
+      ui.div(
+        'Usage: $0\ttwo\tthree'
+      )
+
+      ui.toString().should.eql('Usage: $0\ttwo\tthree')
+    })
+
+  })
 })
