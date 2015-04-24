@@ -21,6 +21,9 @@ UI.prototype.span = function () {
 
 UI.prototype.div = function () {
   if (arguments.length === 0) this.div('')
+  if (this.wrap && this._shouldApplyLayoutDSL.apply(this, arguments)) {
+    return this._applyLayoutDSL(arguments[0])
+  }
 
   var cols = []
 
@@ -31,6 +34,47 @@ UI.prototype.div = function () {
 
   this.rows.push(cols)
   return cols
+}
+
+UI.prototype._shouldApplyLayoutDSL = function () {
+  return arguments.length === 1 && typeof arguments[0] === 'string' &&
+    /[\t\n]/.test(arguments[0])
+}
+
+UI.prototype._applyLayoutDSL = function (str) {
+  var _this = this,
+    rows = str.split('\n'),
+    leftColumnWidth = 0
+
+  // simple heuristic for layout, make sure the
+  // second column lines up along the left-hand.
+  // don't allow the first column to take up more
+  // than 50% of the screen.
+  rows.forEach(function (row) {
+    var columns = row.split('\t')
+    if (columns.length > 1 && columns[0].length > leftColumnWidth) {
+      leftColumnWidth = Math.min(
+        Math.floor(_this.width * 0.5),
+        columns[0].length
+      )
+    }
+  })
+
+  // generate a table:
+  //  replacing ' ' with padding calculations.
+  //  using the algorithmically generated width.
+  rows.forEach(function (row) {
+    var columns = row.split('\t')
+    _this.div.apply(_this, columns.map(function (r, i) {
+      return {
+        text: r.trim(),
+        padding: [0, r.match(/\s*$/)[0].length, 0, r.match(/^\s*/)[0].length],
+        width: (i === 0 && columns.length > 1) ? leftColumnWidth : undefined
+      }
+    }))
+  })
+
+  return this.rows[this.rows.length - 1]
 }
 
 UI.prototype._colFromString = function (str) {

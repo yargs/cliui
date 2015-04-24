@@ -39,6 +39,41 @@ ui.div(
 console.log(ui.toString())
 ```
 
+## Layout DSL
+
+cliui exposes a simple layout DSL:
+
+If you create a single `ui.row`, passing a string rather than an
+object:
+
+* `\n`: characters will be interpreted as new rows.
+* '\t': characters will be interpreted as new columns.
+* ' ': characters will be interpreted as padding.
+
+**as an example...**
+
+```js
+var ui = require('./')({
+  width: 60
+})
+
+ui.div(
+  'Usage: node ./bin/foo.js\n' +
+  '  <regex>\t  provide a regex\n' +
+  '  <glob>\t  provide a glob\t [required]'
+)
+
+console.log(ui.toString())
+```
+
+**will output:**
+
+```shell
+Usage: node ./bin/foo.js
+  <regex>  provide a regex
+  <glob>   provide a glob          [required]
+```
+
 ## Methods
 
 ```js
