@@ -47,8 +47,8 @@ If you create a single `ui.row`, passing a string rather than an
 object:
 
 * `\n`: characters will be interpreted as new rows.
-* '\t': characters will be interpreted as new columns.
-* ' ': characters will be interpreted as padding.
+* `\t`: characters will be interpreted as new columns.
+* ` `: characters will be interpreted as padding.
 
 **as an example...**
 
