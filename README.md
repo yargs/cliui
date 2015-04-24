@@ -48,7 +48,7 @@ object:
 
 * `\n`: characters will be interpreted as new rows.
 * `\t`: characters will be interpreted as new columns.
-* ` `: characters will be interpreted as padding.
+* `\s`: characters will be interpreted as padding.
 
 **as an example...**
 
