@@ -23,21 +23,25 @@ ui.div({
 ui.div(
   {
     text: "-f, --file",
-    width: 40,
+    width: 20,
     padding: [0, 4, 0, 4]
   },
   {
-    text: "the file to load",
-    width: 25
+    text: "the file to load." +
+      chalk.green("(if this description is long it wraps).")
+    ,
+    width: 20
   },
   {
-    text: "[required]",
+    text: chalk.red("[required]"),
     align: 'right'
   }
 )
 
 console.log(ui.toString())
 ```
+
+<img width="500" src="screenshot.png">
 
 ## Layout DSL
 
