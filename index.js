@@ -1,12 +1,12 @@
-var wrap = require('wordwrap'),
-  align = {
-    right: require('right-align'),
-    center: require('center-align')
-  },
-  top = 0,
-  right = 1,
-  bottom = 2,
-  left = 3
+var wrap = require('wrap-ansi')
+var align = {
+  right: require('right-align'),
+  center: require('center-align')
+}
+var top = 0
+var right = 1
+var bottom = 2
+var left = 3
 
 function UI (opts) {
   this.width = opts.width
@@ -42,9 +42,9 @@ UI.prototype._shouldApplyLayoutDSL = function () {
 }
 
 UI.prototype._applyLayoutDSL = function (str) {
-  var _this = this,
-    rows = str.split('\n'),
-    leftColumnWidth = 0
+  var _this = this
+  var rows = str.split('\n')
+  var leftColumnWidth = 0
 
   // simple heuristic for layout, make sure the
   // second column lines up along the left-hand.
@@ -84,8 +84,8 @@ UI.prototype._colFromString = function (str) {
 }
 
 UI.prototype.toString = function () {
-  var _this = this,
-    lines = []
+  var _this = this
+  var lines = []
 
   _this.rows.forEach(function (row, i) {
     _this.rowToString(row, lines)
@@ -103,13 +103,13 @@ UI.prototype.toString = function () {
 }
 
 UI.prototype.rowToString = function (row, lines) {
-  var _this = this,
-    paddingLeft,
-    rrows = this._rasterize(row),
-    str = '',
-    ts,
-    width,
-    wrapWidth
+  var _this = this
+  var paddingLeft
+  var rrows = this._rasterize(row)
+  var str = ''
+  var ts
+  var width
+  var wrapWidth
 
   rrows.forEach(function (rrow, r) {
     str = ''
@@ -155,8 +155,8 @@ UI.prototype.rowToString = function (row, lines) {
 // if the full 'source' can render in
 // the target line, do so.
 UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
-  var target = previousLine.text,
-    str = ''
+  var target = previousLine.text
+  var str = ''
 
   if (!previousLine.span) return source
 
@@ -185,19 +185,19 @@ UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
 }
 
 UI.prototype._rasterize = function (row) {
-  var _this = this,
-    i,
-    rrow,
-    rrows = [],
-    widths = this._columnWidths(row),
-    wrapped
+  var _this = this
+  var i
+  var rrow
+  var rrows = []
+  var widths = this._columnWidths(row)
+  var wrapped
 
   // word wrap all columns, and create
   // a data-structure that is easy to rasterize.
   row.forEach(function (col, c) {
     // leave room for left and right padding.
     col.width = widths[c]
-    if (_this.wrap) wrapped = wrap.hard(_this._negatePadding(col))(col.text).split('\n')
+    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\n')
     else wrapped = col.text.split('\n')
 
     // add top and bottom padding.
@@ -228,11 +228,11 @@ UI.prototype._negatePadding = function (col) {
 }
 
 UI.prototype._columnWidths = function (row) {
-  var _this = this,
-    widths = [],
-    unset = row.length,
-    unsetWidth,
-    remainingWidth = this.width
+  var _this = this
+  var widths = []
+  var unset = row.length
+  var unsetWidth
+  var remainingWidth = this.width
 
   // column widths can be set in config.
   row.forEach(function (col, i) {

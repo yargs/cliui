@@ -4,7 +4,8 @@
   "description": "easily create complex multi-column command-line-interfaces",
   "main": "index.js",
   "scripts": {
-    "test": "standard && mocha --check-leaks --ui exports --require patched-blanket -R mocoverage"
+    "test": "standard && nyc mocha",
+    "coverage": "nyc --reporter=text-lcov mocha | coveralls"
   },
   "repository": {
     "type": "git",
@@ -44,16 +45,13 @@
   "dependencies": {
     "center-align": "^0.1.1",
     "right-align": "^0.1.1",
-    "wordwrap": "0.0.2"
+    "wrap-ansi": "^1.0.0"
   },
   "devDependencies": {
-    "blanket": "^1.1.6",
-    "chai": "^2.2.0",
-    "coveralls": "^2.11.2",
-    "mocha": "^2.2.4",
-    "mocha-lcov-reporter": "0.0.2",
-    "mocoverage": "^1.0.0",
-    "patched-blanket": "^1.0.1",
-    "standard": "^3.6.1"
+    "chai": "^3.3.0",
+    "coveralls": "^2.11.4",
+    "mocha": "^2.3.3",
+    "nyc": "^3.2.2",
+    "standard": "^5.3.1"
   }
 }

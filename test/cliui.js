@@ -37,11 +37,11 @@ describe('cliui', function () {
 
       // it should wrap each column appropriately.
       var expected = [
-       'i am a string  i am a      i am a third',
-       'that should be second      string that',
-       'wrapped        string that should be',
-       '               should be   wrapped',
-       '               wrapped'
+        'i am a string  i am a      i am a third',
+        'that should be second      string that',
+        'wrapped        string that should be',
+        '               should be   wrapped',
+        '               wrapped'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -64,9 +64,9 @@ describe('cliui', function () {
   describe('_columnWidths', function () {
     it('uses same width for each column by default', function () {
       var ui = cliui({
-          width: 40
-        }),
-        widths = ui._columnWidths([{}, {}, {}])
+        width: 40
+      })
+      var widths = ui._columnWidths([{}, {}, {}])
 
       widths[0].should.equal(13)
       widths[1].should.equal(13)
@@ -75,9 +75,9 @@ describe('cliui', function () {
 
     it('divides width over remaining columns if first column has width specified', function () {
       var ui = cliui({
-          width: 40
-        }),
-        widths = ui._columnWidths([{width: 20}, {}, {}])
+        width: 40
+      })
+      var widths = ui._columnWidths([{width: 20}, {}, {}])
 
       widths[0].should.equal(20)
       widths[1].should.equal(10)
@@ -86,9 +86,9 @@ describe('cliui', function () {
 
     it('divides width over remaining columns if middle column has width specified', function () {
       var ui = cliui({
-          width: 40
-        }),
-        widths = ui._columnWidths([{}, {width: 10}, {}])
+        width: 40
+      })
+      var widths = ui._columnWidths([{}, {width: 10}, {}])
 
       widths[0].should.equal(15)
       widths[1].should.equal(10)
@@ -97,9 +97,9 @@ describe('cliui', function () {
 
     it('keeps track of remaining width if multiple columns have width specified', function () {
       var ui = cliui({
-          width: 40
-        }),
-        widths = ui._columnWidths([{width: 20}, {width: 12}, {}])
+        width: 40
+      })
+      var widths = ui._columnWidths([{width: 20}, {width: 12}, {}])
 
       widths[0].should.equal(20)
       widths[1].should.equal(12)
@@ -108,9 +108,9 @@ describe('cliui', function () {
 
     it('uses a sane default if impossible widths are specified', function () {
       var ui = cliui({
-          width: 40
-        }),
-        widths = ui._columnWidths([{width: 30}, {width: 30}, {padding: [0, 2, 0, 1]}])
+        width: 40
+      })
+      var widths = ui._columnWidths([{width: 30}, {width: 30}, {padding: [0, 2, 0, 1]}])
 
       widths[0].should.equal(30)
       widths[1].should.equal(30)
@@ -132,10 +132,10 @@ describe('cliui', function () {
 
       // it should right-align the second column.
       var expected = [
-       'i am a stringi am a secondi am a third',
-       '                    stringstring that',
-       '                          should be',
-       '                          wrapped'
+        'i am a stringi am a secondi am a third',
+        '                    stringstring that',
+        '                          should be',
+        '                          wrapped'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -154,9 +154,9 @@ describe('cliui', function () {
 
       // it should right-align the second column.
       var expected = [
-       'i am a string          i am a second       i am a third string',
-       '                           string          that should be',
-       '                                           wrapped'
+        'i am a string          i am a second       i am a third string',
+        '                           string          that should be',
+        '                                           wrapped'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -177,10 +177,10 @@ describe('cliui', function () {
 
       // it should add left/right padding to columns.
       var expected = [
-       '    i have     i have      i have no',
-       '    padding  padding on    padding',
-       '    on my     my right',
-       '    left'
+        '    i have     i have      i have no',
+        '    padding  padding on    padding',
+        '    on my     my right',
+        '    left'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -200,11 +200,11 @@ describe('cliui', function () {
       // it should add top/bottom padding to second
       // and third columns.
       var expected = [
-       'i am a string             i am a third',
-       '                          string that',
-       '             i am a secondshould be',
-       '             string       wrapped',
-       ''
+        'i am a string             i am a third',
+        '                          string that',
+        '             i am a secondshould be',
+        '             string       wrapped',
+        ''
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -242,8 +242,8 @@ describe('cliui', function () {
       )
 
       var expected = [
-       'i am a string that will be',
-       'wrapped         [required] [default: 99]'
+        'i am a string that will be',
+        'wrapped         [required] [default: 99]'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -263,9 +263,9 @@ describe('cliui', function () {
       )
 
       var expected = [
-       'i am a string that will be',
-       'wrapped',
-       'i am a second row'
+        'i am a string that will be',
+        'wrapped',
+        'i am a second row'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -288,8 +288,8 @@ describe('cliui', function () {
       ui.div('a third line')
 
       var expected = [
-       'i am a string that will be wrapped   i am a second row',
-       'a third line'
+        'i am a string that will be wrapped   i am a second row',
+        'a third line'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -307,8 +307,8 @@ describe('cliui', function () {
       )
 
       var expected = [
-       '  <regex>            my awesome regex',
-       '  <my second thing>  another row          a third column'
+        '  <regex>            my awesome regex',
+        '  <my second thing>  another row          a third column'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -323,10 +323,10 @@ describe('cliui', function () {
         'Usage: $0\n  <regex>\t  my awesome regex\n  <glob>\t  my awesome glob\t  [required]'
       )
       var expected = [
-       'Usage: $0',
-       '  <regex>  my awesome regex',
-       '  <glob>   my awesome     [required]',
-       '           glob'
+        'Usage: $0',
+        '  <regex>  my awesome regex',
+        '  <glob>   my awesome     [required]',
+        '           glob'
       ]
 
       ui.toString().split('\n').should.eql(expected)
@@ -344,6 +344,5 @@ describe('cliui', function () {
 
       ui.toString().should.eql('Usage: $0\ttwo\tthree')
     })
-
   })
 })
