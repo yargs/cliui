@@ -4,7 +4,8 @@
   "description": "easily create complex multi-column command-line-interfaces",
   "main": "index.js",
   "scripts": {
-    "test": "standard && nyc mocha"
+    "test": "standard && nyc mocha",
+    "coverage": "nyc --reporter=text-lcov mocha | coveralls"
   },
   "repository": {
     "type": "git",
