@@ -1,8 +1,8 @@
 var stringWidth = require('string-width')
 var wrap = require('wrap-ansi')
 var align = {
-  right: require('right-align'),
-  center: require('center-align')
+  right: alignRight,
+  center: alignCenter
 }
 var top = 0
 var right = 1
@@ -127,8 +127,7 @@ UI.prototype.rowToString = function (row, lines) {
 
       // align the string within its column.
       if (row[c].align && row[c].align !== 'left' && _this.wrap) {
-        ts = align[row[c].align](ts.trim() + '\n' + new Array(wrapWidth + 1).join(' '))
-          .split('\n')[0]
+        ts = align[row[c].align](ts, wrapWidth)
         if (stringWidth(ts) < wrapWidth) ts += new Array(width - stringWidth(ts)).join(' ')
       }
 
@@ -158,8 +157,9 @@ UI.prototype.rowToString = function (row, lines) {
 // if the full 'source' can render in
 // the target line, do so.
 UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
+  var leadingWhitespace = source.match(/^ */)[0].length
   var target = previousLine.text
-  var str = ''
+  var targetTextWidth = stringWidth(target.trimRight())
 
   if (!previousLine.span) return source
 
@@ -170,21 +170,11 @@ UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
     return target + source
   }
 
-  for (var i = 0, tc, sc; i < Math.max(source.length, target.length); i++) {
-    tc = target.charAt(i) || ' '
-    sc = source.charAt(i) || ' '
-    // we tried to overwrite a character in the other string.
-    if (tc !== ' ' && sc !== ' ') return source
-    // there is not enough whitespace to maintain padding.
-    if (sc !== ' ' && i < paddingLeft + target.length) return source
-    // :thumbsup:
-    if (tc === ' ') str += sc
-    else str += tc
-  }
+  if (leadingWhitespace < targetTextWidth) return source
 
   previousLine.hidden = true
 
-  return str
+  return target.trimRight() + new Array(leadingWhitespace - targetTextWidth + 1).join(' ') + source.trimLeft()
 }
 
 UI.prototype._rasterize = function (row) {
@@ -264,6 +254,30 @@ function _minWidth (col) {
   var padding = col.padding || []
 
   return 1 + (padding[left] || 0) + (padding[right] || 0)
+}
+
+function alignRight (str, width) {
+  str = str.trim()
+  var padding = ''
+  var strWidth = stringWidth(str)
+
+  if (strWidth < width) {
+    padding = new Array(width - strWidth + 1).join(' ')
+  }
+
+  return padding + str
+}
+
+function alignCenter (str, width) {
+  str = str.trim()
+  var padding = ''
+  var strWidth = stringWidth(str.trim())
+
+  if (strWidth < width) {
+    padding = new Array(parseInt((width - strWidth) / 2, 10) + 1).join(' ')
+  }
+
+  return padding + str
 }
 
 module.exports = function (opts) {

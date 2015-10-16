@@ -296,6 +296,29 @@ describe('cliui', function () {
 
       ui.toString().split('\n').should.eql(expected)
     })
+
+    it('appends to prior line appropriately when strings contain ansi escape codes', function () {
+      var ui = cliui({
+        width: 40
+      })
+
+      ui.span(
+        {text: chalk.green('i am a string that will be wrapped'), width: 30}
+      )
+
+      ui.div(
+        {text: chalk.blue(' [required] [default: 99]'), align: 'right'}
+      )
+
+      var expected = [
+        'i am a string that will be',
+        'wrapped         [required] [default: 99]'
+      ]
+
+      ui.toString().split('\n').map(function (l) {
+        return stripAnsi(l)
+      }).should.eql(expected)
+    })
   })
 
   describe('layoutDSL', function () {

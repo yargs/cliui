@@ -43,8 +43,6 @@
   "author": "Ben Coe <ben@npmjs.com>",
   "license": "ISC",
   "dependencies": {
-    "center-align": "^0.1.1",
-    "right-align": "^0.1.1",
     "string-width": "^1.0.1",
     "wrap-ansi": "^1.0.0"
   },
