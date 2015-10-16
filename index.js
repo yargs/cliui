@@ -1,3 +1,4 @@
+var stringWidth = require('string-width')
 var wrap = require('wrap-ansi')
 var align = {
   right: require('right-align'),
@@ -52,10 +53,10 @@ UI.prototype._applyLayoutDSL = function (str) {
   // than 50% of the screen.
   rows.forEach(function (row) {
     var columns = row.split('\t')
-    if (columns.length > 1 && columns[0].length > leftColumnWidth) {
+    if (columns.length > 1 && stringWidth(columns[0]) > leftColumnWidth) {
       leftColumnWidth = Math.min(
         Math.floor(_this.width * 0.5),
-        columns[0].length
+        stringWidth(columns[0])
       )
     }
   })
@@ -118,15 +119,17 @@ UI.prototype.rowToString = function (row, lines) {
       width = row[c].width // the width with padding.
       wrapWidth = _this._negatePadding(row[c]) // the width without padding.
 
-      for (var i = 0; i < Math.max(wrapWidth, col.length); i++) {
-        ts += col.charAt(i) || ' '
+      ts += col
+
+      for (var i = 0; i < wrapWidth - stringWidth(col); i++) {
+        ts += ' '
       }
 
       // align the string within its column.
       if (row[c].align && row[c].align !== 'left' && _this.wrap) {
         ts = align[row[c].align](ts.trim() + '\n' + new Array(wrapWidth + 1).join(' '))
           .split('\n')[0]
-        if (ts.length < wrapWidth) ts += new Array(width - ts.length).join(' ')
+        if (stringWidth(ts) < wrapWidth) ts += new Array(width - stringWidth(ts)).join(' ')
       }
 
       // add left/right padding and print string.
@@ -248,7 +251,7 @@ UI.prototype._columnWidths = function (row) {
   // any unset widths should be calculated.
   if (unset) unsetWidth = Math.floor(remainingWidth / unset)
   widths.forEach(function (w, i) {
-    if (!_this.wrap) widths[i] = row[i].width || row[i].text.length
+    if (!_this.wrap) widths[i] = row[i].width || stringWidth(row[i].text)
     else if (w === undefined) widths[i] = Math.max(unsetWidth, _minWidth(row[i]))
   })
 
