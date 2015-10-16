@@ -2,7 +2,9 @@
 
 require('chai').should()
 
+var chalk = require('chalk')
 var cliui = require('../')
+var stripAnsi = require('strip-ansi')
 
 describe('cliui', function () {
   describe('div', function () {
@@ -330,6 +332,28 @@ describe('cliui', function () {
       ]
 
       ui.toString().split('\n').should.eql(expected)
+    })
+
+    it('aligns rows appropriately when they contain ansi escape codes', function () {
+      var ui = cliui({
+        width: 40
+      })
+
+      ui.div(
+        '  <regex>\t  ' + chalk.red('my awesome regex') + '\t  [regex]\n  ' + chalk.blue('<glob>') + '\t  my awesome glob\t  [required]'
+      )
+
+      chalk
+      var expected = [
+        '  <regex>  my awesome     [regex]',
+        '           regex',
+        '  <glob>   my awesome     [required]',
+        '           glob'
+      ]
+
+      ui.toString().split('\n').map(function (l) {
+        return stripAnsi(l)
+      }).should.eql(expected)
     })
 
     it('does not apply DSL if wrap is false', function () {
