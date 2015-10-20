@@ -113,7 +113,7 @@ UI.prototype.toString = function () {
 
 UI.prototype.rowToString = function (row, lines) {
   var _this = this
-  var paddingLeft
+  var padding
   var rrows = this._rasterize(row)
   var str = ''
   var ts
@@ -140,15 +140,15 @@ UI.prototype.rowToString = function (row, lines) {
       }
 
       // add left/right padding and print string.
-      paddingLeft = (row[c].padding || [0, 0, 0, 0])[left]
-      if (paddingLeft) str += new Array(row[c].padding[left] + 1).join(' ')
+      padding = row[c].padding || [0, 0, 0, 0]
+      if (padding[left]) str += new Array(padding[left] + 1).join(' ')
       str += ts
-      if (row[c].padding && row[c].padding[right]) str += new Array(row[c].padding[right] + 1).join(' ')
+      if (padding[right]) str += new Array(padding[right] + 1).join(' ')
 
       // if prior row is span, try to render the
       // current row on the prior line.
       if (r === 0 && lines.length > 0) {
-        str = _this._renderInline(str, lines[lines.length - 1], paddingLeft)
+        str = _this._renderInline(str, lines[lines.length - 1])
       }
     })
 
@@ -164,7 +164,7 @@ UI.prototype.rowToString = function (row, lines) {
 
 // if the full 'source' can render in
 // the target line, do so.
-UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
+UI.prototype._renderInline = function (source, previousLine) {
   var leadingWhitespace = source.match(/^ */)[0].length
   var target = previousLine.text
   var targetTextWidth = stringWidth(target.trimRight())
