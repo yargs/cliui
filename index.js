@@ -1,4 +1,5 @@
 var stringWidth = require('string-width')
+var stripAnsi = require('strip-ansi')
 var wrap = require('wrap-ansi')
 var align = {
   right: alignRight,
@@ -67,9 +68,11 @@ UI.prototype._applyLayoutDSL = function (str) {
   rows.forEach(function (row) {
     var columns = row.split('\t')
     _this.div.apply(_this, columns.map(function (r, i) {
+      // measure padding without ansi escape codes
+      var rNoAnsi = stripAnsi(r)
       return {
         text: r.trim(),
-        padding: [0, r.match(/\s*$/)[0].length, 0, r.match(/^\s*/)[0].length],
+        padding: [0, rNoAnsi.match(/\s*$/)[0].length, 0, rNoAnsi.match(/^\s*/)[0].length],
         width: (i === 0 && columns.length > 1) ? leftColumnWidth : undefined
       }
     }))
