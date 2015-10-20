@@ -68,11 +68,9 @@ UI.prototype._applyLayoutDSL = function (str) {
   rows.forEach(function (row) {
     var columns = row.split('\t')
     _this.div.apply(_this, columns.map(function (r, i) {
-      // measure padding without ansi escape codes
-      var rNoAnsi = stripAnsi(r)
       return {
         text: r.trim(),
-        padding: [0, rNoAnsi.match(/\s*$/)[0].length, 0, rNoAnsi.match(/^\s*/)[0].length],
+        padding: _this._measurePadding(r),
         width: (i === 0 && columns.length > 1) ? leftColumnWidth : undefined
       }
     }))
@@ -83,8 +81,15 @@ UI.prototype._applyLayoutDSL = function (str) {
 
 UI.prototype._colFromString = function (str) {
   return {
-    text: str
+    text: str,
+    padding: this._measurePadding(str)
   }
+}
+
+UI.prototype._measurePadding = function (str) {
+  // measure padding without ansi escape codes
+  var noAnsi = stripAnsi(str)
+  return [0, noAnsi.match(/\s*$/)[0].length, 0, noAnsi.match(/^\s*/)[0].length]
 }
 
 UI.prototype.toString = function () {

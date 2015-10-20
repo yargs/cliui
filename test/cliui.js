@@ -211,6 +211,22 @@ describe('cliui', function () {
 
       ui.toString().split('\n').should.eql(expected)
     })
+
+    it('preserves leading whitespace as padding', function () {
+      var ui = cliui()
+
+      ui.div('     LEADING WHITESPACE')
+      ui.div('\u001b[34m     with ansi\u001b[39m')
+
+      var expected = [
+        '     LEADING WHITESPACE',
+        '     with ansi'
+      ]
+
+      ui.toString().split('\n').map(function (l) {
+        return stripAnsi(l)
+      }).should.eql(expected)
+    })
   })
 
   describe('wrap', function () {
