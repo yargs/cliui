@@ -1,6 +1,6 @@
 {
   "name": "cliui",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "easily create complex multi-column command-line-interfaces",
   "main": "index.js",
   "scripts": {
