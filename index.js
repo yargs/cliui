@@ -1,4 +1,5 @@
 var stringWidth = require('string-width')
+var stripAnsi = require('strip-ansi')
 var wrap = require('wrap-ansi')
 var align = {
   right: alignRight,
@@ -69,7 +70,7 @@ UI.prototype._applyLayoutDSL = function (str) {
     _this.div.apply(_this, columns.map(function (r, i) {
       return {
         text: r.trim(),
-        padding: [0, r.match(/\s*$/)[0].length, 0, r.match(/^\s*/)[0].length],
+        padding: _this._measurePadding(r),
         width: (i === 0 && columns.length > 1) ? leftColumnWidth : undefined
       }
     }))
@@ -80,8 +81,15 @@ UI.prototype._applyLayoutDSL = function (str) {
 
 UI.prototype._colFromString = function (str) {
   return {
-    text: str
+    text: str,
+    padding: this._measurePadding(str)
   }
+}
+
+UI.prototype._measurePadding = function (str) {
+  // measure padding without ansi escape codes
+  var noAnsi = stripAnsi(str)
+  return [0, noAnsi.match(/\s*$/)[0].length, 0, noAnsi.match(/^\s*/)[0].length]
 }
 
 UI.prototype.toString = function () {
@@ -105,7 +113,7 @@ UI.prototype.toString = function () {
 
 UI.prototype.rowToString = function (row, lines) {
   var _this = this
-  var paddingLeft
+  var padding
   var rrows = this._rasterize(row)
   var str = ''
   var ts
@@ -132,15 +140,15 @@ UI.prototype.rowToString = function (row, lines) {
       }
 
       // add left/right padding and print string.
-      paddingLeft = (row[c].padding || [0, 0, 0, 0])[left]
-      if (paddingLeft) str += new Array(row[c].padding[left] + 1).join(' ')
+      padding = row[c].padding || [0, 0, 0, 0]
+      if (padding[left]) str += new Array(padding[left] + 1).join(' ')
       str += ts
-      if (row[c].padding && row[c].padding[right]) str += new Array(row[c].padding[right] + 1).join(' ')
+      if (padding[right]) str += new Array(padding[right] + 1).join(' ')
 
       // if prior row is span, try to render the
       // current row on the prior line.
       if (r === 0 && lines.length > 0) {
-        str = _this._renderInline(str, lines[lines.length - 1], paddingLeft)
+        str = _this._renderInline(str, lines[lines.length - 1])
       }
     })
 
@@ -156,7 +164,7 @@ UI.prototype.rowToString = function (row, lines) {
 
 // if the full 'source' can render in
 // the target line, do so.
-UI.prototype._renderInline = function (source, previousLine, paddingLeft) {
+UI.prototype._renderInline = function (source, previousLine) {
   var leadingWhitespace = source.match(/^ */)[0].length
   var target = previousLine.text
   var targetTextWidth = stringWidth(target.trimRight())

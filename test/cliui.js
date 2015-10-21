@@ -211,6 +211,22 @@ describe('cliui', function () {
 
       ui.toString().split('\n').should.eql(expected)
     })
+
+    it('preserves leading whitespace as padding', function () {
+      var ui = cliui()
+
+      ui.div('     LEADING WHITESPACE')
+      ui.div('\u001b[34m     with ansi\u001b[39m')
+
+      var expected = [
+        '     LEADING WHITESPACE',
+        '     with ansi'
+      ]
+
+      ui.toString().split('\n').map(function (l) {
+        return stripAnsi(l)
+      }).should.eql(expected)
+    })
   })
 
   describe('wrap', function () {
@@ -366,12 +382,35 @@ describe('cliui', function () {
         '  <regex>\t  ' + chalk.red('my awesome regex') + '\t  [regex]\n  ' + chalk.blue('<glob>') + '\t  my awesome glob\t  [required]'
       )
 
-      chalk
       var expected = [
         '  <regex>  my awesome     [regex]',
         '           regex',
         '  <glob>   my awesome     [required]',
         '           glob'
+      ]
+
+      ui.toString().split('\n').map(function (l) {
+        return stripAnsi(l)
+      }).should.eql(expected)
+    })
+
+    it('ignores ansi escape codes when measuring padding', function () {
+      var ui = cliui({
+        width: 25
+      })
+
+      // using figlet font 'Shadow' rendering of text 'true' here
+      ui.div(
+        chalk.blue('  |                      \n  __|   __|  |   |   _ \\ \n  |    |     |   |   __/ \n \\__| _|    \\__,_| \\___| \n                         ')
+      )
+
+      // relevant part is first line - leading whitespace should be preserved as left padding
+      var expected = [
+        '  |',
+        '  __|   __|  |   |   _ \\',
+        '  |    |     |   |   __/',
+        ' \\__| _|    \\__,_| \\___|',
+        '                         '
       ]
 
       ui.toString().split('\n').map(function (l) {
