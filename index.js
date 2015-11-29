@@ -139,10 +139,12 @@ UI.prototype.rowToString = function (row, lines) {
         if (stringWidth(ts) < wrapWidth) ts += new Array(width - stringWidth(ts)).join(' ')
       }
 
-      // add left/right padding and print string.
+      // apply border and padding to string.
       padding = row[c].padding || [0, 0, 0, 0]
       if (padding[left]) str += new Array(padding[left] + 1).join(' ')
+      str += addBorder(row[c], ts, '| ')
       str += ts
+      str += addBorder(row[c], ts, ' |')
       if (padding[right]) str += new Array(padding[right] + 1).join(' ')
 
       // if prior row is span, try to render the
@@ -160,6 +162,15 @@ UI.prototype.rowToString = function (row, lines) {
   })
 
   return lines
+}
+
+function addBorder (col, ts, style) {
+  if (col.border) {
+    if (/[.']-+[.']/.test(ts)) return ''
+    else if (ts.trim().length) return style
+    else return '  '
+  }
+  return ''
 }
 
 // if the full 'source' can render in
@@ -201,6 +212,11 @@ UI.prototype._rasterize = function (row) {
     if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\n')
     else wrapped = col.text.split('\n')
 
+    if (col.border) {
+      wrapped.unshift('.' + new Array(_this._negatePadding(col) + 3).join('-') + '.')
+      wrapped.push("'" + new Array(_this._negatePadding(col) + 3).join('-') + "'")
+    }
+
     // add top and bottom padding.
     if (col.padding) {
       for (i = 0; i < (col.padding[top] || 0); i++) wrapped.unshift('')
@@ -225,6 +241,7 @@ UI.prototype._rasterize = function (row) {
 UI.prototype._negatePadding = function (col) {
   var wrapWidth = col.width
   if (col.padding) wrapWidth -= (col.padding[left] || 0) + (col.padding[right] || 0)
+  if (col.border) wrapWidth -= 4
   return wrapWidth
 }
 
@@ -260,8 +277,9 @@ UI.prototype._columnWidths = function (row) {
 // a column, based on padding preferences.
 function _minWidth (col) {
   var padding = col.padding || []
-
-  return 1 + (padding[left] || 0) + (padding[right] || 0)
+  var minWidth = 1 + (padding[left] || 0) + (padding[right] || 0)
+  if (col.border) minWidth += 4
+  return minWidth
 }
 
 function alignRight (str, width) {

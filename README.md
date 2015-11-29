@@ -101,6 +101,7 @@ options:
 * **width:** the width of a column.
 * **align:** alignment, `right` or `center`.
 * **padding:** `[top, right, bottom, left]`.
+* **border:** should a border be placed around the div?
 
 ### cliui.span(column, column, column)
 

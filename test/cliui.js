@@ -229,6 +229,29 @@ describe('cliui', function () {
     })
   })
 
+  describe('border', function () {
+    it('allows a border to be placed around a div', function () {
+      var ui = cliui({
+        width: 40
+      })
+
+      ui.div(
+        {text: 'i am a first string', padding: [0, 0, 0, 0], border: true},
+        {text: 'i am a second string', padding: [1, 0, 0, 0], border: true}
+      )
+
+      var expected = [
+        '.------------------.',
+        '| i am a first     |.------------------.',
+        '| string           || i am a second    |',
+        "'------------------'| string           |",
+        "                    '------------------'"
+      ]
+
+      ui.toString().split('\n').should.eql(expected)
+    })
+  })
+
   describe('wrap', function () {
     it('allows wordwrap to be disabled', function () {
       var ui = cliui({
