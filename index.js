@@ -164,8 +164,8 @@ UI.prototype.rowToString = function (row, lines) {
   return lines
 }
 
-function addBorder (row, ts, style) {
-  if (row.border) {
+function addBorder (col, ts, style) {
+  if (col.border) {
     if (/[.']-+[.']/.test(ts)) return ''
     else if (ts.trim().length) return style
     else return '  '
