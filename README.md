@@ -1,7 +1,7 @@
 # cliui
 
-[![Build Status](https://travis-ci.org/bcoe/cliui.png)](https://travis-ci.org/bcoe/cliui)
-[![Coverage Status](https://coveralls.io/repos/bcoe/cliui/badge.svg?branch=)](https://coveralls.io/r/bcoe/cliui?branch=)
+[![Build Status](https://travis-ci.org/yargs/cliui.png)](https://travis-ci.org/yargs/cliui)
+[![Coverage Status](https://coveralls.io/repos/yargs/cliui/badge.svg?branch=)](https://coveralls.io/r/yargs/cliui?branch=)
 [![NPM version](https://img.shields.io/npm/v/cliui.svg)](https://www.npmjs.com/package/cliui)
 
 easily create complex multi-column command-line-interfaces.
