@@ -54,9 +54,9 @@
     "chalk": "^1.1.2",
     "coveralls": "^2.11.8",
     "mocha": "^2.4.5",
-    "nyc": "^6.1.1",
+    "nyc": "^6.4.0",
     "standard": "^6.0.8",
-    "standard-version": "^2.1.1"
+    "standard-version": "^2.1.2"
   },
   "files": [
     "index.js"
