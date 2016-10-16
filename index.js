@@ -310,7 +310,7 @@ module.exports = function (opts) {
   opts = opts || {}
 
   return new UI({
-    width: (opts || {}).width || 80,
+    width: (opts || {}).width || process.stdout.columns || 80,
     wrap: typeof opts.wrap === 'boolean' ? opts.wrap : true
   })
 }
