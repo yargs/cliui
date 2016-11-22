@@ -54,7 +54,7 @@
     "chalk": "^1.1.2",
     "coveralls": "^2.11.8",
     "mocha": "^3.0.0",
-    "nyc": "^9.0.1",
+    "nyc": "^10.0.0",
     "standard": "^8.0.0",
     "standard-version": "^3.0.0"
   },
