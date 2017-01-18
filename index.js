@@ -283,7 +283,7 @@ function _minWidth (col) {
 }
 
 function getWindowWidth () {
-  if (process && process.stdout && process.stdout.columns) return process.stdout.columns
+  if (typeof process === 'object' && process.stdout && process.stdout.columns) return process.stdout.columns
 }
 
 function alignRight (str, width) {
