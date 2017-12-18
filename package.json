@@ -7,7 +7,7 @@
     "pretest": "standard",
     "test": "nyc mocha",
     "coverage": "nyc --reporter=text-lcov mocha | coveralls",
-    "version": "standard-version"
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
