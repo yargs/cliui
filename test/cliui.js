@@ -2,6 +2,9 @@
 
 require('chai').should()
 
+// Force chalk to enable color, if it's disabled the test fails.
+process.env['FORCE_COLOR'] = 1
+
 var chalk = require('chalk')
 var cliui = require('../')
 var stripAnsi = require('strip-ansi')
