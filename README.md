@@ -99,6 +99,7 @@ Create a row with any number of columns, a column
 can either be a string, or an object with the following
 options:
 
+* **text:** some text to place in the column.
 * **width:** the width of a column.
 * **align:** alignment, `right` or `center`.
 * **padding:** `[top, right, bottom, left]`.
