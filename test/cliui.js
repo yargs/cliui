@@ -10,7 +10,7 @@ var cliui = require('../')
 var stripAnsi = require('strip-ansi')
 
 describe('cliui', function () {
-  describe('clear', function () {
+  describe('clearText', function () {
     it('should set lines to empty', function () {
       var ui = cliui()
       ui.div('i am a value that would be in a line')

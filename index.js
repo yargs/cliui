@@ -21,7 +21,7 @@ UI.prototype.span = function () {
   cols.span = true
 }
 
-UI.prototype.clear = function () {
+UI.prototype.clearText = function () {
   this.rows = []
 }
 
