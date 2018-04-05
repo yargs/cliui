@@ -10,7 +10,7 @@ var right = 1
 var bottom = 2
 var left = 3
 
-function UI (opts) {
+function UI(opts) {
   this.width = opts.width
   this.wrap = opts.wrap
   this.rows = []
@@ -19,6 +19,11 @@ function UI (opts) {
 UI.prototype.span = function () {
   var cols = this.div.apply(this, arguments)
   cols.span = true
+}
+
+
+UI.prototype.clear = function () {
+  this.rows = []
 }
 
 UI.prototype.div = function () {
@@ -164,7 +169,7 @@ UI.prototype.rowToString = function (row, lines) {
   return lines
 }
 
-function addBorder (col, ts, style) {
+function addBorder(col, ts, style) {
   if (col.border) {
     if (/[.']-+[.']/.test(ts)) return ''
     else if (ts.trim().length) return style
@@ -209,7 +214,7 @@ UI.prototype._rasterize = function (row) {
   row.forEach(function (col, c) {
     // leave room for left and right padding.
     col.width = widths[c]
-    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\n')
+    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\n')
     else wrapped = col.text.split('\n')
 
     if (col.border) {
@@ -275,18 +280,18 @@ UI.prototype._columnWidths = function (row) {
 
 // calculates the minimum width of
 // a column, based on padding preferences.
-function _minWidth (col) {
+function _minWidth(col) {
   var padding = col.padding || []
   var minWidth = 1 + (padding[left] || 0) + (padding[right] || 0)
   if (col.border) minWidth += 4
   return minWidth
 }
 
-function getWindowWidth () {
+function getWindowWidth() {
   if (typeof process === 'object' && process.stdout && process.stdout.columns) return process.stdout.columns
 }
 
-function alignRight (str, width) {
+function alignRight(str, width) {
   str = str.trim()
   var padding = ''
   var strWidth = stringWidth(str)
@@ -298,7 +303,7 @@ function alignRight (str, width) {
   return padding + str
 }
 
-function alignCenter (str, width) {
+function alignCenter(str, width) {
   str = str.trim()
   var padding = ''
   var strWidth = stringWidth(str.trim())
