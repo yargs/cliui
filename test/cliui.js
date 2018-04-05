@@ -14,7 +14,7 @@ describe('cliui', function () {
     it('should set lines to empty', function () {
       var ui = cliui()
       ui.div('i am a value that would be in a line')
-      ui.clear()
+      ui.clearText()
       ui.toString().length.should.be.equal(0)
     })
   })
