@@ -10,11 +10,11 @@ var cliui = require('../')
 var stripAnsi = require('strip-ansi')
 
 describe('cliui', function () {
-  describe('clearText', function () {
+  describe('resetOutput', function () {
     it('should set lines to empty', function () {
       var ui = cliui()
       ui.div('i am a value that would be in a line')
-      ui.clearText()
+      ui.resetOutput()
       ui.toString().length.should.be.equal(0)
     })
   })

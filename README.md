@@ -109,6 +109,6 @@ options:
 Similar to `div`, except the next row will be appended without
 a new line being created.
 
-### cliui.clearText()
+### cliui.resetOutput()
 
-Resets the text property of the current cliui.  Wrapping, width, margin, padding, border, and align set in the constructor are not reset.
+Resets the UI elements of the current cliui instance.  Wrapping and width that would normally be reset when creating a new cliui instance by using the constructor are not reset.
