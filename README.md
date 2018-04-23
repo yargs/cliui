@@ -108,3 +108,7 @@ options:
 
 Similar to `div`, except the next row will be appended without
 a new line being created.
+
+### cliui.resetOutput()
+
+Resets the UI elements of the current cliui instance.  Wrapping and width that would normally be reset when creating a new cliui instance by using the constructor are not reset.

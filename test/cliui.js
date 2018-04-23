@@ -10,6 +10,15 @@ var cliui = require('../')
 var stripAnsi = require('strip-ansi')
 
 describe('cliui', function () {
+  describe('resetOutput', function () {
+    it('should set lines to empty', function () {
+      var ui = cliui()
+      ui.div('i am a value that would be in a line')
+      ui.resetOutput()
+      ui.toString().length.should.be.equal(0)
+    })
+  })
+
   describe('div', function () {
     it("wraps text at 'width' if a single column is given", function () {
       var ui = cliui({
@@ -29,7 +38,7 @@ describe('cliui', function () {
       })
 
       ui.div(
-        {text: 'i am a string that should be wrapped', width: 15},
+        { text: 'i am a string that should be wrapped', width: 15 },
         'i am a second string that should be wrapped',
         'i am a third string that should be wrapped'
       )
@@ -82,7 +91,7 @@ describe('cliui', function () {
       var ui = cliui({
         width: 40
       })
-      var widths = ui._columnWidths([{width: 20}, {}, {}])
+      var widths = ui._columnWidths([{ width: 20 }, {}, {}])
 
       widths[0].should.equal(20)
       widths[1].should.equal(10)
@@ -93,7 +102,7 @@ describe('cliui', function () {
       var ui = cliui({
         width: 40
       })
-      var widths = ui._columnWidths([{}, {width: 10}, {}])
+      var widths = ui._columnWidths([{}, { width: 10 }, {}])
 
       widths[0].should.equal(15)
       widths[1].should.equal(10)
@@ -104,7 +113,7 @@ describe('cliui', function () {
       var ui = cliui({
         width: 40
       })
-      var widths = ui._columnWidths([{width: 20}, {width: 12}, {}])
+      var widths = ui._columnWidths([{ width: 20 }, { width: 12 }, {}])
 
       widths[0].should.equal(20)
       widths[1].should.equal(12)
@@ -115,7 +124,7 @@ describe('cliui', function () {
       var ui = cliui({
         width: 40
       })
-      var widths = ui._columnWidths([{width: 30}, {width: 30}, {padding: [0, 2, 0, 1]}])
+      var widths = ui._columnWidths([{ width: 30 }, { width: 30 }, { padding: [0, 2, 0, 1] }])
 
       widths[0].should.equal(30)
       widths[1].should.equal(30)
@@ -131,7 +140,7 @@ describe('cliui', function () {
 
       ui.div(
         'i am a string',
-        {text: 'i am a second string', align: 'right'},
+        { text: 'i am a second string', align: 'right' },
         'i am a third string that should be wrapped'
       )
 
@@ -153,7 +162,7 @@ describe('cliui', function () {
 
       ui.div(
         'i am a string',
-        {text: 'i am a second string', align: 'center', padding: [0, 2, 0, 2]},
+        { text: 'i am a second string', align: 'center', padding: [0, 2, 0, 2] },
         'i am a third string that should be wrapped'
       )
 
@@ -175,9 +184,9 @@ describe('cliui', function () {
       })
 
       ui.div(
-        {text: 'i have padding on my left', padding: [0, 0, 0, 4]},
-        {text: 'i have padding on my right', padding: [0, 2, 0, 0], align: 'center'},
-        {text: 'i have no padding', padding: [0, 0, 0, 0]}
+        { text: 'i have padding on my left', padding: [0, 0, 0, 4] },
+        { text: 'i have padding on my right', padding: [0, 2, 0, 0], align: 'center' },
+        { text: 'i have no padding', padding: [0, 0, 0, 0] }
       )
 
       // it should add left/right padding to columns.
@@ -198,8 +207,8 @@ describe('cliui', function () {
 
       ui.div(
         'i am a string',
-        {text: 'i am a second string', padding: [2, 0, 0, 0]},
-        {text: 'i am a third string that should be wrapped', padding: [0, 0, 1, 0]}
+        { text: 'i am a second string', padding: [2, 0, 0, 0] },
+        { text: 'i am a third string that should be wrapped', padding: [0, 0, 1, 0] }
       )
 
       // it should add top/bottom padding to second
@@ -239,8 +248,8 @@ describe('cliui', function () {
       })
 
       ui.div(
-        {text: 'i am a first string', padding: [0, 0, 0, 0], border: true},
-        {text: 'i am a second string', padding: [1, 0, 0, 0], border: true}
+        { text: 'i am a first string', padding: [0, 0, 0, 0], border: true },
+        { text: 'i am a second string', padding: [1, 0, 0, 0], border: true }
       )
 
       var expected = [
@@ -262,9 +271,9 @@ describe('cliui', function () {
       })
 
       ui.div(
-        {text: 'i am a string', padding: [0, 1, 0, 0]},
-        {text: 'i am a second string', padding: [0, 2, 0, 0]},
-        {text: 'i am a third string that should not be wrapped', padding: [0, 0, 0, 2]}
+        { text: 'i am a string', padding: [0, 1, 0, 0] },
+        { text: 'i am a second string', padding: [0, 2, 0, 0] },
+        { text: 'i am a third string that should not be wrapped', padding: [0, 0, 0, 2] }
       )
 
       ui.toString().should.equal('i am a string i am a second string    i am a third string that should not be wrapped')
@@ -278,11 +287,11 @@ describe('cliui', function () {
       })
 
       ui.span(
-        {text: 'i am a string that will be wrapped', width: 30}
+        { text: 'i am a string that will be wrapped', width: 30 }
       )
 
       ui.div(
-        {text: ' [required] [default: 99]', align: 'right'}
+        { text: ' [required] [default: 99]', align: 'right' }
       )
 
       var expected = [
@@ -299,11 +308,11 @@ describe('cliui', function () {
       })
 
       ui.span(
-        {text: 'i am a string that will be wrapped', width: 30}
+        { text: 'i am a string that will be wrapped', width: 30 }
       )
 
       ui.div(
-        {text: 'i am a second row', align: 'left'}
+        { text: 'i am a second row', align: 'left' }
       )
 
       var expected = [
@@ -322,11 +331,11 @@ describe('cliui', function () {
       })
 
       ui.span(
-        {text: 'i am a string that will be wrapped', width: 30}
+        { text: 'i am a string that will be wrapped', width: 30 }
       )
 
       ui.div(
-        {text: 'i am a second row', align: 'left', padding: [0, 0, 0, 3]}
+        { text: 'i am a second row', align: 'left', padding: [0, 0, 0, 3] }
       )
 
       ui.div('a third line')
@@ -345,11 +354,11 @@ describe('cliui', function () {
       })
 
       ui.span(
-        {text: chalk.green('i am a string that will be wrapped'), width: 30}
+        { text: chalk.green('i am a string that will be wrapped'), width: 30 }
       )
 
       ui.div(
-        {text: chalk.blue(' [required] [default: 99]'), align: 'right'}
+        { text: chalk.blue(' [required] [default: 99]'), align: 'right' }
       )
 
       var expected = [
