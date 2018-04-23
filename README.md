@@ -111,4 +111,5 @@ a new line being created.
 
 ### cliui.resetOutput()
 
-Resets the UI elements of the current cliui instance.  Wrapping and width that would normally be reset when creating a new cliui instance by using the constructor are not reset.
+Resets the UI elements of the current cliui instance, maintaining the values
+set for `width` and `wrap`.
