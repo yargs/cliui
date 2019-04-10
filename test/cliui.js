@@ -430,6 +430,11 @@ describe('cliui', function () {
     })
 
     it('ignores ansi escape codes when measuring padding', function () {
+      // Forcefully enable color-codes for this test
+      const { enabled, level } = chalk
+      chalk.enabled = true
+      chalk.level = 1
+
       var ui = cliui({
         width: 25
       })
@@ -446,6 +451,32 @@ describe('cliui', function () {
         '  |    |     |   |   __/',
         ' \\__| _|    \\__,_| \\___|',
         '                         '
+      ]
+
+      ui.toString().split('\n').map(function (l) {
+        return stripAnsi(l)
+      }).should.eql(expected)
+      chalk.enabled = enabled
+      chalk.level = level
+    })
+
+    it('correctly handles lack of ansi escape codes when measuring padding', function () {
+      var ui = cliui({
+        width: 25
+      })
+
+      // using figlet font 'Shadow' rendering of text 'true' here
+      ui.div(
+        '  |                      \n  __|   __|  |   |   _ \\ \n  |    |     |   |   __/ \n \\__| _|    \\__,_| \\___| \n                         '
+      )
+
+      // The difference
+      var expected = [
+        '  |',
+        '  __|   __|  |   |   _ \\',
+        '  |    |     |   |   __/',
+        ' \\__| _|    \\__,_| \\___|',
+        ''
       ]
 
       ui.toString().split('\n').map(function (l) {
