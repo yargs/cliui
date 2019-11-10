@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [5.0.0](https://github.com/yargs/cliui/compare/v4.1.0...v5.0.0) (2019-04-10)
+## [5.0.0](https://github.com/yargs/cliui/compare/v4.1.0...v5.0.0) (2019-04-10)
 
 
 ### Bug Fixes
@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 <a name="4.1.0"></a>
-# [4.1.0](https://github.com/yargs/cliui/compare/v4.0.0...v4.1.0) (2018-04-23)
+## [4.1.0](https://github.com/yargs/cliui/compare/v4.0.0...v4.1.0) (2018-04-23)
 
 
 ### Features
@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 <a name="4.0.0"></a>
-# [4.0.0](https://github.com/yargs/cliui/compare/v3.2.0...v4.0.0) (2017-12-18)
+## [4.0.0](https://github.com/yargs/cliui/compare/v3.2.0...v4.0.0) (2017-12-18)
 
 
 ### Bug Fixes
@@ -53,7 +53,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 <a name="3.2.0"></a>
-# [3.2.0](https://github.com/yargs/cliui/compare/v3.1.2...v3.2.0) (2016-04-11)
+## [3.2.0](https://github.com/yargs/cliui/compare/v3.1.2...v3.2.0) (2016-04-11)
 
 
 ### Bug Fixes
