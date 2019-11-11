@@ -317,6 +317,7 @@ function _minWidth (col) {
 }
 
 function getWindowWidth () {
+  /* istanbul ignore next: depends on terminal */
   if (typeof process === 'object' && process.stdout && process.stdout.columns) {
     return process.stdout.columns
   }
@@ -337,16 +338,17 @@ function alignCenter (str, width) {
   str = str.trim()
   const strWidth = stringWidth(str)
 
-  if (strWidth < width) {
-    return ' '.repeat((width - strWidth) >> 1) + str
+  /* istanbul ignore next */
+  if (strWidth >= width) {
+    return str
   }
 
-  return str
+  return ' '.repeat((width - strWidth) >> 1) + str
 }
 
 module.exports = function (opts = {}) {
   return new UI({
-    width: opts.width || getWindowWidth() || 80,
+    width: opts.width || getWindowWidth() || /* istanbul ignore next */ 80,
     wrap: opts.wrap !== false
   })
 }
