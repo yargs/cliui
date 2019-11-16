@@ -44,9 +44,9 @@
   "author": "Ben Coe <ben@npmjs.com>",
   "license": "ISC",
   "dependencies": {
-    "string-width": "^4.1.0",
+    "string-width": "^4.2.0",
     "strip-ansi": "^6.0.0",
-    "wrap-ansi": "^6.1.0"
+    "wrap-ansi": "^6.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -54,8 +54,7 @@
     "coveralls": "^3.0.3",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "standard": "^12.0.1",
-    "standard-version": "^7.0.0"
+    "standard": "^12.0.1"
   },
   "files": [
     "index.js"
