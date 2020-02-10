@@ -54,7 +54,7 @@
     "coveralls": "^3.0.3",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "standard": "^12.0.1"
+    "standard": "^14.0.0"
   },
   "files": [
     "index.js"
