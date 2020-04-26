@@ -46,7 +46,7 @@
   "dependencies": {
     "string-width": "^4.2.0",
     "strip-ansi": "^6.0.0",
-    "wrap-ansi": "^6.2.0"
+    "wrap-ansi": "^7.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
