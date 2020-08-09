@@ -4,18 +4,19 @@
   "description": "easily create complex multi-column command-line-interfaces",
   "main": "index.js",
   "exports": {
-    "import": "./build/lib/index.js",
+    "import": "./index.mjs",
     "require": "./build/index.cjs"
   },
   "type": "module",
-  "module": "./build/lib/index.js",
+  "module": "./index.mjs",
   "scripts": {
     "check": "standardx '**/*.ts' && standardx '**/*.js' && standardx '**/*.cjs'",
     "fix": "standardx --fix '**/*.ts' && standardx --fix '**/*.js' && standardx --fix '**/*.cjs'",
     "pretest": "rimraf build && tsc -p tsconfig.test.json && cross-env NODE_ENV=test npm run build:cjs",
-    "test": "c8 mocha",
+    "test": "c8 mocha ./test/*.cjs",
+    "test:esm": "c8 mocha ./test/esm/cliui-test.mjs",
     "postest": "check",
-    "posttest": "standard",
+    "posttest": "npm run check",
     "coverage": "c8 report --check-coverage",
     "precompile": "rimraf build",
     "compile": "tsc",
@@ -71,6 +72,7 @@
   },
   "files": [
     "build",
+    "index.mjs",
     "!*.d.ts"
   ],
   "engine": {
