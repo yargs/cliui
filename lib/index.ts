@@ -1,5 +1,8 @@
 'use strict'
 
+// import foo from './noop.js'
+// console.info(foo)
+
 const stringWidth = require('string-width')
 const stripAnsi = require('strip-ansi')
 const wrap = require('wrap-ansi')
