@@ -1,20 +1,16 @@
 'use strict'
 
-const stringWidth = require('string-width')
-const stripAnsi = require('strip-ansi')
-const wrap = require('wrap-ansi')
-
 const align = {
   right: alignRight,
-  center: alignCenter,
-  left: (str: string) => { return str } // noop.
+  center: alignCenter
 }
+
 const top = 0
 const right = 1
 const bottom = 2
 const left = 3
 
-interface UIOptions {
+export interface UIOptions {
   width: number;
   wrap: boolean;
   rows?: string[];
@@ -38,7 +34,13 @@ interface Line {
   span?: boolean;
 }
 
-class UI {
+interface Mixin {
+  stringWidth: Function;
+  stripAnsi: Function;
+  wrap: Function;
+}
+
+export class UI {
   width: number;
   wrap: boolean;
   rows: ColumnArray[];
@@ -92,10 +94,10 @@ class UI {
     // don't allow the first column to take up more
     // than 50% of the screen.
     rows.forEach(columns => {
-      if (columns.length > 1 && stringWidth(columns[0]) > leftColumnWidth) {
+      if (columns.length > 1 && mixin.stringWidth(columns[0]) > leftColumnWidth) {
         leftColumnWidth = Math.min(
           Math.floor(this.width * 0.5),
-          stringWidth(columns[0])
+          mixin.stringWidth(columns[0])
         )
       }
     })
@@ -125,7 +127,7 @@ class UI {
 
   private measurePadding (str: string): number[] {
     // measure padding without ansi escape codes
-    const noAnsi = stripAnsi(str)
+    const noAnsi = mixin.stripAnsi(str)
     return [0, noAnsi.match(/\s*$/)[0].length, 0, noAnsi.match(/^\s*/)[0].length]
   }
 
@@ -153,15 +155,16 @@ class UI {
 
         let ts = col // temporary string used during alignment/padding.
 
-        if (wrapWidth > stringWidth(col)) {
-          ts += ' '.repeat(wrapWidth - stringWidth(col))
+        if (wrapWidth > mixin.stringWidth(col)) {
+          ts += ' '.repeat(wrapWidth - mixin.stringWidth(col))
         }
 
         // align the string within its column.
         if (row[c].align && row[c].align !== 'left' && this.wrap) {
-          ts = align[row[c].align || 'right'](ts, wrapWidth)
-          if (stringWidth(ts) < wrapWidth) {
-            ts += ' '.repeat((width || 0) - stringWidth(ts) - 1)
+          const fn = align[(row[c].align as 'right'|'center')]
+          ts = fn(ts, wrapWidth)
+          if (mixin.stringWidth(ts) < wrapWidth) {
+            ts += ' '.repeat((width || 0) - mixin.stringWidth(ts) - 1)
           }
         }
 
@@ -201,7 +204,7 @@ class UI {
     const match = source.match(/^ */)
     const leadingWhitespace = match ? match[0].length : 0
     const target = previousLine.text
-    const targetTextWidth = stringWidth(target.trimRight())
+    const targetTextWidth = mixin.stringWidth(target.trimRight())
 
     if (!previousLine.span) {
       return source
@@ -234,7 +237,7 @@ class UI {
       // leave room for left and right padding.
       col.width = widths[c]
       if (this.wrap) {
-        wrapped = wrap(col.text, this.negatePadding(col), { hard: true }).split('\n')
+        wrapped = mixin.wrap(col.text, this.negatePadding(col), { hard: true }).split('\n')
       } else {
         wrapped = col.text.split('\n')
       }
@@ -286,7 +289,7 @@ class UI {
   private columnWidths (row: ColumnArray) {
     if (!this.wrap) {
       return row.map(col => {
-        return col.width || stringWidth(col.text)
+        return col.width || mixin.stringWidth(col.text)
       })
     }
 
@@ -355,7 +358,7 @@ function getWindowWidth (): number {
 
 function alignRight (str: string, width: number): string {
   str = str.trim()
-  const strWidth = stringWidth(str)
+  const strWidth = mixin.stringWidth(str)
 
   if (strWidth < width) {
     return ' '.repeat(width - strWidth) + str
@@ -366,7 +369,7 @@ function alignRight (str: string, width: number): string {
 
 function alignCenter (str: string, width: number): string {
   str = str.trim()
-  const strWidth = stringWidth(str)
+  const strWidth = mixin.stringWidth(str)
 
   /* istanbul ignore next */
   if (strWidth >= width) {
@@ -376,7 +379,9 @@ function alignCenter (str: string, width: number): string {
   return ' '.repeat((width - strWidth) >> 1) + str
 }
 
-export default function cliui (opts: Partial<UIOptions> = {}) {
+let mixin: Mixin
+export function cliui (opts: Partial<UIOptions> = {}, _mixin: Mixin) {
+  mixin = _mixin
   return new UI({
     width: opts.width || getWindowWidth(),
     wrap: opts.wrap !== false

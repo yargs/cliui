@@ -9,7 +9,7 @@ const output = {
 if (process.env.NODE_ENV === 'test') output.sourcemap = true
 
 export default {
-  input: './lib/index.ts',
+  input: './lib/cjs.ts',
   output,
   plugins: [
     ts({ /* options */ })
