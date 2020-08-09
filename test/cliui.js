@@ -5,7 +5,7 @@
 require('chai').should()
 
 // Force chalk to enable color, if it's disabled the test fails.
-process.env['FORCE_COLOR'] = 1
+process.env.FORCE_COLOR = 1
 
 const chalk = require('chalk')
 const cliui = require('../')

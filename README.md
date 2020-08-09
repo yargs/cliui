@@ -1,9 +1,9 @@
 # cliui
 
 [![Build Status](https://travis-ci.org/yargs/cliui.svg)](https://travis-ci.org/yargs/cliui)
-[![Coverage Status](https://coveralls.io/repos/yargs/cliui/badge.svg?branch=)](https://coveralls.io/r/yargs/cliui?branch=)
 [![NPM version](https://img.shields.io/npm/v/cliui.svg)](https://www.npmjs.com/package/cliui)
-[![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+![nycrc config on GitHub](https://img.shields.io/nycrc/yargs/cliui)
 
 easily create complex multi-column command-line-interfaces.
 
