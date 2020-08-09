@@ -10,13 +10,13 @@ easily create complex multi-column command-line-interfaces.
 ## Example
 
 ```js
-var ui = require('cliui')()
+const ui = require('cliui')()
 
 ui.div('Usage: $0 [command] [options]')
 
 ui.div({
   text: 'Options:',
-  padding: [2, 0, 2, 0]
+  padding: [2, 0, 1, 0]
 })
 
 ui.div(
@@ -36,6 +36,30 @@ ui.div(
     align: 'right'
   }
 )
+
+console.log(ui.toString())
+```
+
+## Deno/ESM Support
+
+As of `v7` `cliui` supports [Deno](https://github.com/denoland/deno) and
+[ESM](https://nodejs.org/api/esm.html#esm_ecmascript_modules):
+
+```typescript
+const ui = cliui({})
+
+ui.div('Usage: $0 [command] [options]')
+
+ui.div({
+  text: 'Options:',
+  padding: [2, 0, 1, 0]
+})
+
+ui.div({
+  text: "-f, --file",
+  width: 20,
+  padding: [0, 4, 0, 4]
+})
 
 console.log(ui.toString())
 ```
