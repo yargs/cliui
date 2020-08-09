@@ -46,6 +46,8 @@ As of `v7` `cliui` supports [Deno](https://github.com/denoland/deno) and
 [ESM](https://nodejs.org/api/esm.html#esm_ecmascript_modules):
 
 ```typescript
+import cliui from "https://deno.land/x/cliui/deno.ts";
+
 const ui = cliui({})
 
 ui.div('Usage: $0 [command] [options]')
