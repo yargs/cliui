@@ -1,6 +1,6 @@
 # cliui
 
-[![Build Status](https://travis-ci.org/yargs/cliui.svg)](https://travis-ci.org/yargs/cliui)
+![ci](https://github.com/yargs/cliui/workflows/ci/badge.svg)
 [![NPM version](https://img.shields.io/npm/v/cliui.svg)](https://www.npmjs.com/package/cliui)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 ![nycrc config on GitHub](https://img.shields.io/nycrc/yargs/cliui)
