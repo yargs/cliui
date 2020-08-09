@@ -21,7 +21,6 @@
     "compile": "tsc",
     "postcompile": "npm run build:cjs",
     "build:cjs": "rollup -c",
-    "postbuild:cjs": "node scripts/replace-legacy-export.cjs",
     "prepare": "npm run compile"
   },
   "repository": {
@@ -71,7 +70,8 @@
     "typescript": "^3.9.7"
   },
   "files": [
-    "index.js"
+    "build",
+    "!*.d.ts"
   ],
   "engine": {
     "node": ">=10"
