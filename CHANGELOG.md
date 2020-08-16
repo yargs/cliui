@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://www.github.com/yargs/cliui/compare/v7.0.0...v7.0.1) (2020-08-16)
+
+
+### Bug Fixes
+
+* **build:** main should be build/index.cjs ([dc29a3c](https://www.github.com/yargs/cliui/commit/dc29a3cc617a410aa850e06337b5954b04f2cb4d))
+
 ## [7.0.0](https://www.github.com/yargs/cliui/compare/v6.0.0...v7.0.0) (2020-08-16)
 
 
