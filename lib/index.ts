@@ -1,26 +1,57 @@
 'use strict'
 
-const stringWidth = require('string-width')
-const stripAnsi = require('strip-ansi')
-const wrap = require('wrap-ansi')
-
 const align = {
   right: alignRight,
   center: alignCenter
 }
+
 const top = 0
 const right = 1
 const bottom = 2
 const left = 3
 
-class UI {
-  constructor (opts) {
+export interface UIOptions {
+  width: number;
+  wrap: boolean;
+  rows?: string[];
+}
+
+interface Column {
+  text: string;
+  width?: number;
+  align?: 'right'|'left'|'center',
+  padding: number[],
+  border?: boolean;
+}
+
+interface ColumnArray extends Array<Column> {
+  span: boolean;
+}
+
+interface Line {
+  hidden?: boolean;
+  text: string;
+  span?: boolean;
+}
+
+interface Mixin {
+  stringWidth: Function;
+  stripAnsi: Function;
+  wrap: Function;
+}
+
+export class UI {
+  width: number;
+  wrap: boolean;
+  rows: ColumnArray[];
+
+  constructor (opts: UIOptions) {
     this.width = opts.width
     this.wrap = opts.wrap
     this.rows = []
   }
 
-  span (...args) {
+  span (...args: ColumnArray) {
     const cols = this.div(...args)
     cols.span = true
   }
@@ -29,33 +60,32 @@ class UI {
     this.rows = []
   }
 
-  div (...args) {
+  div (...args: (Column|string)[]): ColumnArray {
     if (args.length === 0) {
       this.div('')
     }
 
-    if (this.wrap && this._shouldApplyLayoutDSL(...args)) {
-      return this._applyLayoutDSL(args[0])
+    if (this.wrap && this.shouldApplyLayoutDSL(...args) && typeof args[0] === 'string') {
+      return this.applyLayoutDSL(args[0])
     }
 
     const cols = args.map(arg => {
       if (typeof arg === 'string') {
-        return this._colFromString(arg)
+        return this.colFromString(arg)
       }
-
       return arg
-    })
+    }) as ColumnArray
 
     this.rows.push(cols)
     return cols
   }
 
-  _shouldApplyLayoutDSL (...args) {
+  private shouldApplyLayoutDSL (...args: (Column|string)[]): boolean {
     return args.length === 1 && typeof args[0] === 'string' &&
       /[\t\n]/.test(args[0])
   }
 
-  _applyLayoutDSL (str) {
+  private applyLayoutDSL (str: string): ColumnArray {
     const rows = str.split('\n').map(row => row.split('\t'))
     let leftColumnWidth = 0
 
@@ -64,10 +94,10 @@ class UI {
     // don't allow the first column to take up more
     // than 50% of the screen.
     rows.forEach(columns => {
-      if (columns.length > 1 && stringWidth(columns[0]) > leftColumnWidth) {
+      if (columns.length > 1 && mixin.stringWidth(columns[0]) > leftColumnWidth) {
         leftColumnWidth = Math.min(
           Math.floor(this.width * 0.5),
-          stringWidth(columns[0])
+          mixin.stringWidth(columns[0])
         )
       }
     })
@@ -79,30 +109,30 @@ class UI {
       this.div(...columns.map((r, i) => {
         return {
           text: r.trim(),
-          padding: this._measurePadding(r),
+          padding: this.measurePadding(r),
           width: (i === 0 && columns.length > 1) ? leftColumnWidth : undefined
-        }
+        } as Column
       }))
     })
 
     return this.rows[this.rows.length - 1]
   }
 
-  _colFromString (text) {
+  private colFromString (text: string): Column {
     return {
       text,
-      padding: this._measurePadding(text)
+      padding: this.measurePadding(text)
     }
   }
 
-  _measurePadding (str) {
+  private measurePadding (str: string): number[] {
     // measure padding without ansi escape codes
-    const noAnsi = stripAnsi(str)
+    const noAnsi = mixin.stripAnsi(str)
     return [0, noAnsi.match(/\s*$/)[0].length, 0, noAnsi.match(/^\s*/)[0].length]
   }
 
-  toString () {
-    const lines = []
+  toString (): string {
+    const lines: Line[] = []
 
     this.rows.forEach(row => {
       this.rowToString(row, lines)
@@ -116,24 +146,25 @@ class UI {
       .join('\n')
   }
 
-  rowToString (row, lines) {
-    this._rasterize(row).forEach((rrow, r) => {
+  rowToString (row: ColumnArray, lines: Line[]) {
+    this.rasterize(row).forEach((rrow, r) => {
       let str = ''
-      rrow.forEach((col, c) => {
+      rrow.forEach((col: string, c: number) => {
         const { width } = row[c] // the width with padding.
-        const wrapWidth = this._negatePadding(row[c]) // the width without padding.
+        const wrapWidth = this.negatePadding(row[c]) // the width without padding.
 
         let ts = col // temporary string used during alignment/padding.
 
-        if (wrapWidth > stringWidth(col)) {
-          ts += ' '.repeat(wrapWidth - stringWidth(col))
+        if (wrapWidth > mixin.stringWidth(col)) {
+          ts += ' '.repeat(wrapWidth - mixin.stringWidth(col))
         }
 
         // align the string within its column.
         if (row[c].align && row[c].align !== 'left' && this.wrap) {
-          ts = align[row[c].align](ts, wrapWidth)
-          if (stringWidth(ts) < wrapWidth) {
-            ts += ' '.repeat(width - stringWidth(ts) - 1)
+          const fn = align[(row[c].align as 'right'|'center')]
+          ts = fn(ts, wrapWidth)
+          if (mixin.stringWidth(ts) < wrapWidth) {
+            ts += ' '.repeat((width || 0) - mixin.stringWidth(ts) - 1)
           }
         }
 
@@ -153,7 +184,7 @@ class UI {
         // if prior row is span, try to render the
         // current row on the prior line.
         if (r === 0 && lines.length > 0) {
-          str = this._renderInline(str, lines[lines.length - 1])
+          str = this.renderInline(str, lines[lines.length - 1])
         }
       })
 
@@ -169,10 +200,11 @@ class UI {
 
   // if the full 'source' can render in
   // the target line, do so.
-  _renderInline (source, previousLine) {
-    const leadingWhitespace = source.match(/^ */)[0].length
+  private renderInline (source: string, previousLine: Line) {
+    const match = source.match(/^ */)
+    const leadingWhitespace = match ? match[0].length : 0
     const target = previousLine.text
-    const targetTextWidth = stringWidth(target.trimRight())
+    const targetTextWidth = mixin.stringWidth(target.trimRight())
 
     if (!previousLine.span) {
       return source
@@ -194,9 +226,9 @@ class UI {
     return target.trimRight() + ' '.repeat(leadingWhitespace - targetTextWidth) + source.trimLeft()
   }
 
-  _rasterize (row) {
-    const rrows = []
-    const widths = this._columnWidths(row)
+  private rasterize (row: ColumnArray) {
+    const rrows: string[][] = []
+    const widths = this.columnWidths(row)
     let wrapped
 
     // word wrap all columns, and create
@@ -205,14 +237,14 @@ class UI {
       // leave room for left and right padding.
       col.width = widths[c]
       if (this.wrap) {
-        wrapped = wrap(col.text, this._negatePadding(col), { hard: true }).split('\n')
+        wrapped = mixin.wrap(col.text, this.negatePadding(col), { hard: true }).split('\n')
       } else {
         wrapped = col.text.split('\n')
       }
 
       if (col.border) {
-        wrapped.unshift('.' + '-'.repeat(this._negatePadding(col) + 2) + '.')
-        wrapped.push("'" + '-'.repeat(this._negatePadding(col) + 2) + "'")
+        wrapped.unshift('.' + '-'.repeat(this.negatePadding(col) + 2) + '.')
+        wrapped.push("'" + '-'.repeat(this.negatePadding(col) + 2) + "'")
       }
 
       // add top and bottom padding.
@@ -221,7 +253,7 @@ class UI {
         wrapped.push(...new Array(col.padding[bottom] || 0).fill(''))
       }
 
-      wrapped.forEach((str, r) => {
+      wrapped.forEach((str: string, r: number) => {
         if (!rrows[r]) {
           rrows.push([])
         }
@@ -241,8 +273,8 @@ class UI {
     return rrows
   }
 
-  _negatePadding (col) {
-    let wrapWidth = col.width
+  private negatePadding (col: Column) {
+    let wrapWidth = col.width || 0
     if (col.padding) {
       wrapWidth -= (col.padding[left] || 0) + (col.padding[right] || 0)
     }
@@ -254,10 +286,10 @@ class UI {
     return wrapWidth
   }
 
-  _columnWidths (row) {
+  private columnWidths (row: ColumnArray) {
     if (!this.wrap) {
       return row.map(col => {
-        return col.width || stringWidth(col.text)
+        return col.width || mixin.stringWidth(col.text)
       })
     }
 
@@ -288,7 +320,7 @@ class UI {
   }
 }
 
-function addBorder (col, ts, style) {
+function addBorder (col: Column, ts: string, style: string) {
   if (col.border) {
     if (/[.']-+[.']/.test(ts)) {
       return ''
@@ -306,7 +338,7 @@ function addBorder (col, ts, style) {
 
 // calculates the minimum width of
 // a column, based on padding preferences.
-function _minWidth (col) {
+function _minWidth (col: Column) {
   const padding = col.padding || []
   const minWidth = 1 + (padding[left] || 0) + (padding[right] || 0)
   if (col.border) {
@@ -316,16 +348,17 @@ function _minWidth (col) {
   return minWidth
 }
 
-function getWindowWidth () {
+function getWindowWidth (): number {
   /* istanbul ignore next: depends on terminal */
   if (typeof process === 'object' && process.stdout && process.stdout.columns) {
     return process.stdout.columns
   }
+  return 80
 }
 
-function alignRight (str, width) {
+function alignRight (str: string, width: number): string {
   str = str.trim()
-  const strWidth = stringWidth(str)
+  const strWidth = mixin.stringWidth(str)
 
   if (strWidth < width) {
     return ' '.repeat(width - strWidth) + str
@@ -334,9 +367,9 @@ function alignRight (str, width) {
   return str
 }
 
-function alignCenter (str, width) {
+function alignCenter (str: string, width: number): string {
   str = str.trim()
-  const strWidth = stringWidth(str)
+  const strWidth = mixin.stringWidth(str)
 
   /* istanbul ignore next */
   if (strWidth >= width) {
@@ -346,9 +379,11 @@ function alignCenter (str, width) {
   return ' '.repeat((width - strWidth) >> 1) + str
 }
 
-module.exports = function (opts = {}) {
+let mixin: Mixin
+export function cliui (opts: Partial<UIOptions> = {}, _mixin: Mixin) {
+  mixin = _mixin
   return new UI({
-    width: opts.width || getWindowWidth() || /* istanbul ignore next */ 80,
+    width: opts.width || getWindowWidth(),
     wrap: opts.wrap !== false
   })
 }

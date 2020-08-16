@@ -3,11 +3,26 @@
   "version": "6.0.0",
   "description": "easily create complex multi-column command-line-interfaces",
   "main": "index.js",
+  "exports": {
+    "import": "./index.mjs",
+    "require": "./build/index.cjs"
+  },
+  "type": "module",
+  "module": "./index.mjs",
   "scripts": {
-    "fix": "standard --fix",
-    "test": "c8 mocha",
-    "posttest": "standard",
-    "coverage": "c8 report --check-coverage"
+    "check": "standardx '**/*.ts' && standardx '**/*.js' && standardx '**/*.cjs'",
+    "fix": "standardx --fix '**/*.ts' && standardx --fix '**/*.js' && standardx --fix '**/*.cjs'",
+    "pretest": "rimraf build && tsc -p tsconfig.test.json && cross-env NODE_ENV=test npm run build:cjs",
+    "test": "c8 mocha ./test/*.cjs",
+    "test:esm": "c8 mocha ./test/esm/cliui-test.mjs",
+    "postest": "check",
+    "posttest": "npm run check",
+    "coverage": "c8 report --check-coverage",
+    "precompile": "rimraf build",
+    "compile": "tsc",
+    "postcompile": "npm run build:cjs",
+    "build:cjs": "rollup -c",
+    "prepare": "npm run compile"
   },
   "repository": {
     "type": "git",
@@ -38,14 +53,27 @@
     "wrap-ansi": "^7.0.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "@wessberg/rollup-plugin-ts": "^1.3.2",
     "c8": "^7.3.0",
     "chai": "^4.2.0",
     "chalk": "^4.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "gts": "^2.0.2",
     "mocha": "^8.1.1",
-    "standard": "^14.3.4"
+    "rimraf": "^3.0.2",
+    "rollup": "^2.23.1",
+    "standardx": "^5.0.0",
+    "typescript": "^3.9.7"
   },
   "files": [
-    "index.js"
+    "build",
+    "index.mjs",
+    "!*.d.ts"
   ],
   "engine": {
     "node": ">=10"

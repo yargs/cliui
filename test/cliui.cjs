@@ -8,7 +8,7 @@ require('chai').should()
 process.env.FORCE_COLOR = 1
 
 const chalk = require('chalk')
-const cliui = require('../')
+const cliui = require('../build/index.cjs')
 const stripAnsi = require('strip-ansi')
 
 describe('cliui', () => {
@@ -82,7 +82,7 @@ describe('cliui', () => {
       const ui = cliui({
         width: 40
       })
-      const widths = ui._columnWidths([{}, {}, {}])
+      const widths = ui.columnWidths([{}, {}, {}])
 
       widths[0].should.equal(13)
       widths[1].should.equal(13)
@@ -93,7 +93,7 @@ describe('cliui', () => {
       const ui = cliui({
         width: 40
       })
-      const widths = ui._columnWidths([{ width: 20 }, {}, {}])
+      const widths = ui.columnWidths([{ width: 20 }, {}, {}])
 
       widths[0].should.equal(20)
       widths[1].should.equal(10)
@@ -104,7 +104,7 @@ describe('cliui', () => {
       const ui = cliui({
         width: 40
       })
-      const widths = ui._columnWidths([{}, { width: 10 }, {}])
+      const widths = ui.columnWidths([{}, { width: 10 }, {}])
 
       widths[0].should.equal(15)
       widths[1].should.equal(10)
@@ -115,7 +115,7 @@ describe('cliui', () => {
       const ui = cliui({
         width: 40
       })
-      const widths = ui._columnWidths([{ width: 20 }, { width: 12 }, {}])
+      const widths = ui.columnWidths([{ width: 20 }, { width: 12 }, {}])
 
       widths[0].should.equal(20)
       widths[1].should.equal(12)
@@ -126,7 +126,7 @@ describe('cliui', () => {
       const ui = cliui({
         width: 40
       })
-      const widths = ui._columnWidths([{ width: 30 }, { width: 30 }, { padding: [0, 2, 0, 1] }])
+      const widths = ui.columnWidths([{ width: 30 }, { width: 30 }, { padding: [0, 2, 0, 1] }])
 
       widths[0].should.equal(30)
       widths[1].should.equal(30)
