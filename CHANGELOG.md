@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://www.github.com/yargs/cliui/compare/v6.0.0...v7.0.0) (2020-08-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* tsc/ESM/Deno support (#82)
+* modernize deps and build (#80)
+
+### Build System
+
+* modernize deps and build ([#80](https://www.github.com/yargs/cliui/issues/80)) ([339d08d](https://www.github.com/yargs/cliui/commit/339d08dc71b15a3928aeab09042af94db2f43743))
+
+
+### Code Refactoring
+
+* tsc/ESM/Deno support ([#82](https://www.github.com/yargs/cliui/issues/82)) ([4b777a5](https://www.github.com/yargs/cliui/commit/4b777a5fe01c5d8958c6708695d6aab7dbe5706c))
+
 ## [6.0.0](https://www.github.com/yargs/cliui/compare/v5.0.0...v6.0.0) (2019-11-10)
 
 
