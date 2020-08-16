@@ -24,10 +24,7 @@
     "build:cjs": "rollup -c",
     "prepare": "npm run compile"
   },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/yargs/cliui.git"
-  },
+  "repository": "yargs/cliui",
   "standard": {
     "ignore": [
       "**/example/**"
