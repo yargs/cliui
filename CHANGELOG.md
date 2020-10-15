@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.2](https://www.github.com/yargs/cliui/compare/v7.0.1...v7.0.2) (2020-10-14)
+
+
+### Bug Fixes
+
+* **exports:** node 13.0-13.6 require a string fallback ([#91](https://www.github.com/yargs/cliui/issues/91)) ([b529d7e](https://www.github.com/yargs/cliui/commit/b529d7e432901af1af7848b23ed6cf634497d961))
+
 ### [7.0.1](https://www.github.com/yargs/cliui/compare/v7.0.0...v7.0.1) (2020-08-16)
 
 
