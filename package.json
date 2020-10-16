@@ -3,13 +3,15 @@
   "version": "7.0.2",
   "description": "easily create complex multi-column command-line-interfaces",
   "main": "build/index.cjs",
-  "exports": [
-    {
-      "import": "./index.mjs",
-      "require": "./build/index.cjs"
-    },
-    "./build/index.cjs"
-  ],
+  "exports": {
+    ".": [
+      {
+        "import": "./index.mjs",
+        "require": "./build/index.cjs"
+      },
+      "./build/index.cjs"
+    ]
+  },
   "type": "module",
   "module": "./index.mjs",
   "scripts": {
