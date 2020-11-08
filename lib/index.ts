@@ -47,7 +47,7 @@ export class UI {
 
   constructor (opts: UIOptions) {
     this.width = opts.width
-    this.wrap = opts.wrap ?? false
+    this.wrap = opts.wrap ?? true
     this.rows = []
   }
 
@@ -384,6 +384,6 @@ export function cliui (opts: Partial<UIOptions> = {}, _mixin: Mixin) {
   mixin = _mixin
   return new UI({
     width: opts.width || getWindowWidth(),
-    wrap: opts.wrap !== false
+    wrap: opts.wrap
   })
 }
