@@ -21,7 +21,6 @@
     "test": "c8 mocha ./test/*.cjs",
     "test:esm": "c8 mocha ./test/esm/cliui-test.mjs",
     "postest": "check",
-    "posttest": "npm run check",
     "coverage": "c8 report --check-coverage",
     "precompile": "rimraf build",
     "compile": "tsc",
