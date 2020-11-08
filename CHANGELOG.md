@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.4](https://www.github.com/yargs/cliui/compare/v7.0.3...v7.0.4) (2020-11-08)
+
+
+### Bug Fixes
+
+* **deno:** import UIOptions from definitions ([#97](https://www.github.com/yargs/cliui/issues/97)) ([f04f343](https://www.github.com/yargs/cliui/commit/f04f3439bc78114c7e90f82ff56f5acf16268ea8))
+
 ### [7.0.3](https://www.github.com/yargs/cliui/compare/v7.0.2...v7.0.3) (2020-10-16)
 
 
