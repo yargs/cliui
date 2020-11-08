@@ -12,7 +12,7 @@ const left = 3
 
 export interface UIOptions {
   width: number;
-  wrap: boolean;
+  wrap?: boolean;
   rows?: string[];
 }
 
@@ -47,7 +47,7 @@ export class UI {
 
   constructor (opts: UIOptions) {
     this.width = opts.width
-    this.wrap = opts.wrap
+    this.wrap = opts.wrap ?? false
     this.rows = []
   }
 
