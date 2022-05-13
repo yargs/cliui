@@ -1,6 +1,7 @@
 // Bootstrap cliui with CommonJS dependencies:
 import { cliui } from './build/lib/index.js'
-import { wrap, stripAnsi } from './build/lib/string-utils.js'
+import wrap from 'wrap-ansi';
+import stripAnsi from 'strip-ansi';
 
 export default function ui (opts) {
   return cliui(opts, {

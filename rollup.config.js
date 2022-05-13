@@ -1,4 +1,6 @@
-import ts from '@wessberg/rollup-plugin-ts'
+import ts from 'rollup-plugin-ts'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 
 const output = {
   format: 'cjs',
@@ -12,6 +14,13 @@ export default {
   input: './lib/cjs.ts',
   output,
   plugins: [
-    ts({ /* options */ })
+    ts({ /* options */ }),
+    nodeResolve(),
+    commonjs({
+      include: [
+        'node_modules/emoji-regex/index.js',
+        'node_modules/eastasianwidth/eastasianwidth.js'
+      ]
+    })
   ]
 }
