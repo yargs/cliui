@@ -1,5 +1,3 @@
-'use strict'
-
 const align = {
   right: alignRight,
   center: alignCenter

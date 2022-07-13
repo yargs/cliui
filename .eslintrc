@@ -1,7 +1,7 @@
 {
   "overrides": [
     {
-      "files": "*.ts",
+      "files": ["*.ts", "*.js", "*.cjs"],
       "parser": "@typescript-eslint/parser",
       "rules": {
         "no-unused-vars": "off",

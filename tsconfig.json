@@ -1,9 +1,9 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
     "outDir": "build",
     "rootDir": ".",
     "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "moduleResolution": "node",
     "module": "es2015"

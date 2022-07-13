@@ -2,15 +2,17 @@
 
 /* global describe, it */
 
-require('chai').should()
+import chalk from 'chalk';
+import stripAnsi from 'strip-ansi';
+import {should} from 'chai';
+should();  // Modifies `Object.prototype`
 
 // Force chalk to enable color, if it's disabled the test fails.
 process.env.FORCE_COLOR = 1
 
-const chalk = require('chalk')
-const cliui = require('../build/index.cjs')
-const stripAnsi = require('strip-ansi')
 
+import UI from '../build/index.mjs';
+const cliui = UI;
 describe('cliui', () => {
   describe('resetOutput', () => {
     it('should set lines to empty', () => {
