@@ -1,5 +1,5 @@
 // Bootstrap cliui with CommonJS dependencies:
-import { cliui, UIOptions } from './index.js'
+import { cliui, UIOptions } from './index'
 import stringWidth from 'string-width'
 import stripAnsi from 'strip-ansi'
 import wrap from 'wrap-ansi'

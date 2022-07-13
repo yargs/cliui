@@ -11,8 +11,7 @@ should();  // Modifies `Object.prototype`
 process.env.FORCE_COLOR = 1
 
 
-import UI from '../build/index.mjs';
-const cliui = UI;
+import cliui from '../build/index.mjs';
 describe('cliui', () => {
   describe('resetOutput', () => {
     it('should set lines to empty', () => {
