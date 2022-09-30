@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/yargs/cliui/compare/v7.0.4...v8.0.0) (2022-09-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** drop Node 10 to release CVE-2021-3807 patch (#122)
+
+### Bug Fixes
+
+* **deps:** drop Node 10 to release CVE-2021-3807 patch ([#122](https://github.com/yargs/cliui/issues/122)) ([f156571](https://github.com/yargs/cliui/commit/f156571ce4f2ebf313335e3a53ad905589da5a30))
+
 ### [7.0.4](https://www.github.com/yargs/cliui/compare/v7.0.3...v7.0.4) (2020-11-08)
 
 
