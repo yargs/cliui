@@ -77,7 +77,7 @@
     "index.mjs",
     "!*.d.ts"
   ],
-  "engine": {
-    "node": ">=10"
+  "engines": {
+    "node": ">=12"
   }
 }
