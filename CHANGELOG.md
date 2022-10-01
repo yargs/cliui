@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.1](https://github.com/yargs/cliui/compare/v8.0.0...v8.0.1) (2022-10-01)
+
+
+### Bug Fixes
+
+* **deps:** move rollup-plugin-ts to dev deps ([#124](https://github.com/yargs/cliui/issues/124)) ([7c8bd6b](https://github.com/yargs/cliui/commit/7c8bd6ba024d61e4eeae310c7959ab8ab6829081))
+
 ## [8.0.0](https://github.com/yargs/cliui/compare/v7.0.4...v8.0.0) (2022-09-30)
 
 
