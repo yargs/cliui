@@ -10,8 +10,5 @@
   },  
   "include": [
     "lib/**/*.ts"
-  ],
-  "exclude": [
-    "lib/cjs.ts"
   ]
 }

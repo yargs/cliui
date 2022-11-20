@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [12, 16, 18]
+        node: [16, 18]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -21,7 +21,7 @@ jobs:
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
       - run: npm test
-      - run: npm run check
+      - run: npm run lint
   windows:
     runs-on: windows-latest
     steps:
@@ -53,19 +53,4 @@ jobs:
         with:
           node-version: 14
       - run: npm install
-      - run: npm run test:esm
-  deno:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - run: npm install
-      - run: npm run compile
-      - uses: denolib/setup-deno@v2
-        with:
-          deno-version: v1.x
-      - run: |
-          deno --version
-          deno test test/deno/cliui-test.ts
+      - run: npm run test

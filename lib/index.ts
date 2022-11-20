@@ -108,7 +108,7 @@ export class UI {
     rows.forEach(columns => {
       this.div(...columns.map((r, i) => {
         return {
-          text: r.trim(),
+          text: r,
           padding: this.measurePadding(r),
           width: (i === 0 && columns.length > 1) ? leftColumnWidth : undefined
         } as Column
@@ -152,11 +152,10 @@ export class UI {
       rrow.forEach((col: string, c: number) => {
         const { width } = row[c] // the width with padding.
         const wrapWidth = this.negatePadding(row[c]) // the width without padding.
-
         let ts = col // temporary string used during alignment/padding.
-
-        if (wrapWidth > mixin.stringWidth(col)) {
-          ts += ' '.repeat(wrapWidth - mixin.stringWidth(col))
+        const strWidth = mixin.stringWidth(col.trim())
+        if (wrapWidth > strWidth) {
+          ts += ' '.repeat(wrapWidth - strWidth)
         }
 
         // align the string within its column.
@@ -167,7 +166,6 @@ export class UI {
             ts += ' '.repeat((width || 0) - mixin.stringWidth(ts) - 1)
           }
         }
-
         // apply border and padding to string.
         const padding = row[c].padding || [0, 0, 0, 0]
         if (padding[left]) {
@@ -204,7 +202,7 @@ export class UI {
     const match = source.match(/^ */)
     const leadingWhitespace = match ? match[0].length : 0
     const target = previousLine.text
-    const targetTextWidth = mixin.stringWidth(target.trimRight())
+    const targetTextWidth = mixin.stringWidth(target)
 
     if (!previousLine.span) {
       return source
@@ -222,8 +220,7 @@ export class UI {
     }
 
     previousLine.hidden = true
-
-    return target.trimRight() + ' '.repeat(leadingWhitespace - targetTextWidth) + source.trimLeft()
+    return target + ' '.repeat(leadingWhitespace - targetTextWidth) + source
   }
 
   private rasterize (row: ColumnArray) {
@@ -237,7 +234,7 @@ export class UI {
       // leave room for left and right padding.
       col.width = widths[c]
       if (this.wrap) {
-        wrapped = mixin.wrap(col.text, this.negatePadding(col), { hard: true }).split('\n')
+        wrapped = mixin.wrap(col.text, this.negatePadding(col), { hard: true, trim: true }).split('\n')
       } else {
         wrapped = col.text.split('\n')
       }

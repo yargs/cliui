@@ -1,16 +1,15 @@
 # cliui
 
-![ci](https://github.com/yargs/cliui/workflows/ci/badge.svg)
-[![NPM version](https://img.shields.io/npm/v/cliui.svg)](https://www.npmjs.com/package/cliui)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-![nycrc config on GitHub](https://img.shields.io/nycrc/yargs/cliui)
-
 easily create complex multi-column command-line-interfaces.
 
 ## Example
 
+> **Note** This package is ESM only.
+
 ```js
-const ui = require('cliui')()
+import cliui from '@topcli/cli';
+
+const ui = cliui();
 
 ui.div('Usage: $0 [command] [options]')
 
@@ -40,33 +39,7 @@ ui.div(
 console.log(ui.toString())
 ```
 
-## Deno/ESM Support
-
-As of `v7` `cliui` supports [Deno](https://github.com/denoland/deno) and
-[ESM](https://nodejs.org/api/esm.html#esm_ecmascript_modules):
-
-```typescript
-import cliui from "https://deno.land/x/cliui/deno.ts";
-
-const ui = cliui({})
-
-ui.div('Usage: $0 [command] [options]')
-
-ui.div({
-  text: 'Options:',
-  padding: [2, 0, 1, 0]
-})
-
-ui.div({
-  text: "-f, --file",
-  width: 20,
-  padding: [0, 4, 0, 4]
-})
-
-console.log(ui.toString())
-```
-
-<img width="500" src="screenshot.png">
+<img width="500" src="public/screenshot.png">
 
 ## Layout DSL
 
@@ -82,7 +55,9 @@ object:
 **as an example...**
 
 ```js
-var ui = require('./')({
+import cliui from '@topcli/cli';
+
+const ui = cliui({
   width: 60
 })
 
@@ -104,10 +79,6 @@ Usage: node ./bin/foo.js
 ```
 
 ## Methods
-
-```js
-cliui = require('cliui')
-```
 
 ### cliui({width: integer})
 
