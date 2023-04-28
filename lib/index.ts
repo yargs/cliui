@@ -204,7 +204,7 @@ export class UI {
     const match = source.match(/^ */)
     const leadingWhitespace = match ? match[0].length : 0
     const target = previousLine.text
-    const targetTextWidth = mixin.stringWidth(target.trimRight())
+    const targetTextWidth = mixin.stringWidth(target.trimEnd())
 
     if (!previousLine.span) {
       return source
@@ -223,13 +223,13 @@ export class UI {
 
     previousLine.hidden = true
 
-    return target.trimRight() + ' '.repeat(leadingWhitespace - targetTextWidth) + source.trimLeft()
+    return target.trimEnd() + ' '.repeat(leadingWhitespace - targetTextWidth) + source.trimStart()
   }
 
   private rasterize (row: ColumnArray) {
     const rrows: string[][] = []
     const widths = this.columnWidths(row)
-    let wrapped
+    let wrapped: string[]
 
     // word wrap all columns, and create
     // a data-structure that is easy to rasterize.
