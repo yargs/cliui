@@ -39,7 +39,7 @@ describe('ESM', () => {
       'that should be second      string that',
       'wrapped        string that should be',
       '               should be   wrapped',
-      '               wrapped',
+      '               wrapped'
     ]
     ui.toString().split('\n').forEach((line, i) => {
       strictEqual(line, expected[i])
