@@ -2,6 +2,8 @@
 
 /* global describe, it */
 
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 require('chai').should()
 
 const text = `usage: git tag [-a | -s | -u <key-id>] [-f] [-m <msg> | -F <file>] [-e]
@@ -15,20 +17,19 @@ const text = `usage: git tag [-a | -s | -u <key-id>] [-f] [-m <msg> | -F <file>]
 
 
 const cliuiCJS = require('../build/index.cjs')
-import('../index.mjs').then(({ default: cliuiESM }) => {
-  describe('consistent wrapping', () => {
-    it('should produce matching output in cjs and esm', () => {
-      const uiCJS = cliuiCJS({})
-      const uiESM = cliuiESM({})
-      uiCJS.div({
-        padding: [0, 0, 0, 0],
-        text,
-      })
-      uiESM.div({
-        padding: [0, 0, 0, 0],
-        text,
-      })
-      uiCJS.toString().should.equal(uiESM.toString())
+import cliuiESM from '../index.mjs'
+describe('consistent wrapping', () => {
+  it('should produce matching output in cjs and esm', () => {
+    const uiCJS = cliuiCJS({})
+    const uiESM = cliuiESM({})
+    uiCJS.div({
+      padding: [0, 0, 0, 0],
+      text,
     })
+    uiESM.div({
+      padding: [0, 0, 0, 0],
+      text,
+    })
+    uiCJS.toString().should.equal(uiESM.toString())
   })
 })
