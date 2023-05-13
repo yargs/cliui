@@ -7,11 +7,12 @@ import stripAnsi from 'https://esm.sh/strip-ansi@7'
 import wrap from 'https://esm.sh/wrap-ansi@8'
 
 export default function ui (opts?: UIOptions): UI {
-  let optsWithWidth = opts ?? {};
+  let optsWithWidth = opts ?? {}
   if (!optsWithWidth.width) {
-      const { columns } = Deno.consoleSize();
-      if (columns) 
-        optsWithWidth = Object.assign(optsWithWidth, { width: columns });
+    const { columns } = Deno.consoleSize()
+    if (columns) {
+      optsWithWidth = Object.assign(optsWithWidth, { width: columns })
+    }
   }
 
   return cliui(optsWithWidth, {

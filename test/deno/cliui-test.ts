@@ -44,7 +44,7 @@ Deno.test('evenly divides text across columns if multiple columns are given', ()
     'wrapped        string that should be',
     '               should be   wrapped',
     '               wrapped'
-]
+  ]
 
   ui.toString().split('\n').forEach((line: string, i: number) => {
     assertEquals(line, expected[i])
