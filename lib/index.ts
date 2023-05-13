@@ -11,7 +11,7 @@ const bottom = 2
 const left = 3
 
 export interface UIOptions {
-  width: number;
+  width?: number;
   wrap?: boolean;
   rows?: string[];
 }
