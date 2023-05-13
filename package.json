@@ -20,6 +20,7 @@
     "pretest": "rimraf build && tsc -p tsconfig.test.json && cross-env NODE_ENV=test npm run build:cjs",
     "test": "c8 mocha ./test/*.cjs",
     "test:esm": "c8 mocha ./test/esm/cliui-test.mjs",
+    "test:deno": "deno test ./test/deno/cliui-test.ts",
     "postest": "check",
     "coverage": "c8 report --check-coverage",
     "precompile": "rimraf build",
