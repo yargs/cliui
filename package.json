@@ -10,7 +10,10 @@
         "require": "./build/index.cjs"
       },
       "./build/index.cjs"
-    ]
+    ],
+    "./browser.mjs": {
+      "import": "./browser.mjs"
+    }
   },
   "type": "module",
   "module": "./index.mjs",
@@ -76,6 +79,7 @@
   "files": [
     "build",
     "index.mjs",
+    "browser.mjs",
     "!*.d.ts"
   ],
   "engines": {
