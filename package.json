@@ -63,7 +63,7 @@
     "c8": "^7.3.0",
     "chai": "^4.2.0",
     "chalk": "^4.1.0",
-    "concurrently": "^8.0.1",
+    "concurrently": "^7.6.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.22.0",
