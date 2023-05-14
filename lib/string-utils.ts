@@ -2,6 +2,10 @@
 // to facilitate ESM and Deno modules.
 // TODO: look at porting https://www.npmjs.com/package/wrap-ansi to ESM.
 
+// The current approach is to use the cjs version of the modules for node, and the esm version
+// for contexts which can import from URLs. This file could be deleted if/once we are happy with
+// the new approach.
+
 // The npm application
 // Copyright (c) npm, Inc. and Contributors
 // Licensed on the terms of The Artistic License 2.0
