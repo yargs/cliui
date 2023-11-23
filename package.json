@@ -19,6 +19,7 @@
     "fix": "standardx --fix '**/*.ts' && standardx --fix '**/*.js' && standardx --fix '**/*.cjs'",
     "pretest": "rimraf build && tsc -p tsconfig.test.json && cross-env NODE_ENV=test npm run build:cjs",
     "test": "c8 mocha ./test/cjs/*.cjs ./test/esm/*.mjs",
+    "test-esm-only": "c8 mocha ./test/esm/*.mjs",
     "postest": "check",
     "coverage": "c8 report --check-coverage",
     "precompile": "rimraf build",

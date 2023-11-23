@@ -43,7 +43,7 @@ jobs:
       - run: npm install
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
-      - run: npm test
+      - run: npm test-esm-only
       - run: npm run coverage
   deno:
     runs-on: ubuntu-latest
