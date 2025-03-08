@@ -349,7 +349,7 @@ function _minWidth (col: Column) {
 }
 
 function getWindowWidth (): number {
-  /* istanbul ignore next: depends on terminal */
+  /* c8 ignore next 5: depends on terminal */
   if (typeof process === 'object' && process.stdout && process.stdout.columns) {
     return process.stdout.columns
   }
@@ -371,7 +371,7 @@ function alignCenter (str: string, width: number): string {
   str = str.trim()
   const strWidth = mixin.stringWidth(str)
 
-  /* istanbul ignore next */
+  /* c8 ignore next 3 */
   if (strWidth >= width) {
     return str
   }
