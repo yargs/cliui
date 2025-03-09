@@ -2,7 +2,7 @@
   "name": "cliui",
   "version": "8.0.1",
   "description": "easily create complex multi-column command-line-interfaces",
-  "main": "build/index.cjs",
+  "main": "build/index.mjs",
   "exports": {
     ".": "./index.mjs"
   },
