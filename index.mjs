@@ -11,3 +11,5 @@ export default function ui (opts) {
     wrap: wrapAnsi
   })
 }
+
+export {ui as 'module.exports'};
