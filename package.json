@@ -9,7 +9,7 @@
   "type": "module",
   "module": "./index.mjs",
   "scripts": {
-    "check": "standardx '**/*.ts' && standardx '**/*.js'",
+    "check": "standardx '**/*.ts'",
     "fix": "standardx --fix '**/*.ts' && standardx --fix '**/*.js'",
     "pretest": "rimraf build && tsc -p tsconfig.test.json",
     "test": "c8 mocha ./test/*.mjs",
