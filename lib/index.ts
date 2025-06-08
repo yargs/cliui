@@ -380,7 +380,7 @@ function alignCenter (str: string, width: number): string {
 }
 
 let mixin: Mixin
-export function cliui (opts: Partial<UIOptions>, _mixin: Mixin) {
+export function cliui (opts: Partial<UIOptions> | undefined, _mixin: Mixin) {
   mixin = _mixin
   return new UI({
     width: opts?.width || getWindowWidth(),
