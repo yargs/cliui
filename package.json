@@ -64,7 +64,8 @@
   "files": [
     "build",
     "index.mjs",
-    "!*.d.ts"
+    "!*.d.ts",
+    "!*.tsbuildinfo"
   ],
   "engines": {
     "node": ">=20"
