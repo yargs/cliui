@@ -55,7 +55,7 @@
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-n": "^14.0.0",
-    "gts": "^6.0.2",
+    "gts": "^7.0.0",
     "mocha": "^11.1.0",
     "rimraf": "^6.0.1",
     "standardx": "^7.0.0",
