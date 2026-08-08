@@ -60,3 +60,17 @@ jobs:
       - run: |
           deno --version
           deno test test/deno/cliui-test.ts
+  test-with-updated-direct-dependencies:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [24]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node --version
+      - run: npm ci --engine-strict
+      - run: npm update --engine-strict string-width strip-ansi wrap-ansi
+      - run: npm test
