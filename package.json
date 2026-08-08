@@ -51,7 +51,7 @@
     "c8": "^10.1.3",
     "chai": "^5.2.0",
     "chalk": "^5.4.1",
-    "cross-env": "^7.0.2",
+    "cross-env": "^10.0.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-n": "^14.0.0",
