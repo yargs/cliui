@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import cliui from '../index.mjs'
-import stripAnsi from 'strip-ansi'
+import { stripVTControlCharacters as stripAnsi } from 'node:util'
 import { should } from 'chai'
 
 /* global describe, it */
