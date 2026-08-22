@@ -2,17 +2,21 @@ on:
    push:
      branches:
        - master
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: bcoe/release-please-action@v3
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
-          package-name: cliui
+          # package-name: cliui
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -21,18 +25,18 @@ jobs:
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
       - run: npm run compile
-      - name: push Deno release
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN}}@github.com/yargs/cliui.git"
-          git checkout -b deno
-          git add -f build
-          git commit -a -m 'chore: ${{ steps.release.outputs.tag_name }} release'
-          git push origin +deno
-          git tag -a ${{ steps.release.outputs.tag_name }}-deno -m 'chore: ${{ steps.release.outputs.tag_name }} release'
-          git push origin ${{ steps.release.outputs.tag_name }}-deno
-        if: ${{ steps.release.outputs.release_created }}
+      # - name: push Deno release
+      #   run: |
+      #     git config user.name github-actions[bot]
+      #     git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      #     git remote add gh-token "https://${{ secrets.GITHUB_TOKEN}}@github.com/yargs/cliui.git"
+      #     git checkout -b deno
+      #     git add -f build
+      #     git commit -a -m 'chore: ${{ steps.release.outputs.tag_name }} release'
+      #     git push origin +deno
+      #     git tag -a ${{ steps.release.outputs.tag_name }}-deno -m 'chore: ${{ steps.release.outputs.tag_name }} release'
+      #     git push origin ${{ steps.release.outputs.tag_name }}-deno
+      #   if: ${{ steps.release.outputs.release_created }}
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -40,8 +44,8 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - run: npm install
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        if: ${{ steps.release.outputs.release_created }}
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      #   if: ${{ steps.release.outputs.release_created }}
 
