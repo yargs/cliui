@@ -180,13 +180,12 @@ export class UI {
         if (padding[right]) {
           str += ' '.repeat(padding[right])
         }
-
-        // if prior row is span, try to render the
-        // current row on the prior line.
-        if (r === 0 && lines.length > 0) {
-          str = this.renderInline(str, lines[lines.length - 1])
-        }
       })
+
+      // if prior row is span, try to render the complete row on the prior line.
+      if (r === 0 && lines.length > 0) {
+        str = this.renderInline(str, lines[lines.length - 1])
+      }
 
       // remove trailing whitespace.
       lines.push({
@@ -217,13 +216,16 @@ export class UI {
       return target + source
     }
 
-    if (leadingWhitespace < targetTextWidth) {
+    const sourceText = source.trimLeft()
+    // Keep separate pieces of visible text from running into each other.
+    const minimumGap = targetTextWidth > 0 && mixin.stringWidth(sourceText) > 0 ? 1 : 0
+    if (leadingWhitespace < targetTextWidth + minimumGap) {
       return source
     }
 
     previousLine.hidden = true
 
-    return target.trimRight() + ' '.repeat(leadingWhitespace - targetTextWidth) + source.trimLeft()
+    return target.trimRight() + ' '.repeat(leadingWhitespace - targetTextWidth) + sourceText
   }
 
   private rasterize (row: ColumnArray) {

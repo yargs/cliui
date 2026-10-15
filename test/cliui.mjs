@@ -279,6 +279,62 @@ describe('cliui', () => {
   })
 
   describe('span', () => {
+    describe('span boundary', () => {
+      for (const [name, text] of [
+        ['plain text', '1234567890'],
+        ['ANSI text', '\u001b[32m1234567890\u001b[39m'],
+        ['wide text', '漢字漢字漢']
+      ]) {
+        it(`starts a new line when ${name} leaves no separating space`, () => {
+          const ui = cliui({ width: 20 })
+          ui.span(text)
+          ui.div({ text: '[boolean]', padding: [0, 0, 0, 10] })
+
+          stripAnsi(ui.toString()).should.equal(`${stripAnsi(text)}\n          [boolean]`)
+        })
+      }
+
+      it('appends text when one separating space fits', () => {
+        const ui = cliui({ width: 20 })
+        ui.span('123456789')
+        ui.div({ text: '[boolean]', padding: [0, 0, 0, 10] })
+
+        ui.toString().should.equal('123456789 [boolean]')
+      })
+
+      it('checks the boundary after assembling all columns', () => {
+        const ui = cliui({ width: 20 })
+        ui.span('1234567890')
+        ui.div({ text: '', width: 10 }, { text: '[boolean]', width: 10 })
+
+        ui.toString().should.equal('1234567890\n          [boolean]')
+      })
+
+      it('appends a multi-column row only once when wrapping is disabled', () => {
+        const ui = cliui({ width: 20, wrap: false })
+        ui.span('prefix')
+        ui.div('first', 'second')
+
+        ui.toString().should.equal('prefixfirstsecond')
+      })
+
+      it('does not introduce a blank line for an empty span', () => {
+        const ui = cliui({ width: 20 })
+        ui.span('')
+        ui.div('[boolean]')
+
+        ui.toString().should.equal('[boolean]')
+      })
+
+      it('does not introduce a blank line for an empty following column', () => {
+        const ui = cliui({ width: 20 })
+        ui.span('1234567890')
+        ui.div({ text: '', padding: [0, 0, 0, 10] })
+
+        ui.toString().should.equal('1234567890')
+      })
+    })
+
     it('appends the next row to the end of the prior row if it fits', () => {
       const ui = cliui({
         width: 40
