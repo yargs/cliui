@@ -166,3 +166,8 @@ The current version of `cliui` is fully supported on Long Term Support versions 
 Older major versions of `cliui` receive security updates for 12 months. For more see: [Release Policy](./docs/release-policy.md).
 
 The main forum for free and community support is the project [Issues](https://github.com/yargs/cliui/issues) on GitHub.
+
+## Special Thanks
+
+[HeroDevs](https://www.herodevs.com) sponsored the yargs projects with a donation from
+its Open Source Sustainability Fund in 2026.
