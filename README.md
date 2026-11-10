@@ -159,3 +159,8 @@ a new line being created.
 
 Resets the UI elements of the current cliui instance, maintaining the values
 set for `width` and `wrap`.
+
+## Special Thanks
+
+[HeroDevs](https://www.herodevs.com) sponsored the yargs projects with a donation from
+its Open Source Sustainability Fund in 2026.
