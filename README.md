@@ -1,6 +1,5 @@
 # cliui
 
-![ci](https://github.com/yargs/cliui/workflows/ci/badge.svg)
 [![NPM version](https://img.shields.io/npm/v/cliui.svg)](https://www.npmjs.com/package/cliui)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 ![nycrc config on GitHub](https://img.shields.io/nycrc/yargs/cliui)
@@ -159,6 +158,14 @@ a new line being created.
 
 Resets the UI elements of the current cliui instance, maintaining the values
 set for `width` and `wrap`.
+
+## Support
+
+The current version of `cliui` is fully supported on Long Term Support versions of Node.js, and requires at least v20.
+
+Older major versions of `cliui` receive security updates for 12 months. For more see: [Release Policy](./docs/release-policy.md).
+
+The main forum for free and community support is the project [Issues](https://github.com/yargs/cliui/issues) on GitHub.
 
 ## Special Thanks
 
